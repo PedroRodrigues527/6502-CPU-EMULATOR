@@ -1,22 +1,37 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+/* https://youtu.be/qJgsuQoy9bc?t=1034 */
+
+/* #define CARRY_FLAG 0
+#define ZERO_FLAG 1
+#define INTERRUPT_DISABLE 2
+#define DECIMAL_MODE_FLAG 3
+#define BREAK_COMMAND 4
+#define OVERFLOW_FLAG 5
+#define NEGATIVE_FLAG 6 */
 
 using Byte = unsigned char;  // 1 byte (8 bits)
 using Word = unsigned short; // 2 bytes (16 bits)
+using u32 = unsigned int;    // 32bit
 
 struct Memory
 {
-    static constexpr unsigned int MEMORY_MAX_SIZE = 1024 * 64; // 64KBytes
+    static constexpr u32 MEMORY_MAX_SIZE = 1024 * 64; // 64KBytes
     Byte Data[MEMORY_MAX_SIZE];
 
     void init()
     {
         // reset memory
-        for (unsigned int i = 0; i < MEMORY_MAX_SIZE; i++)
+        for (u32 i = 0; i < MEMORY_MAX_SIZE; i++)
         {
             Data[i] = 0;
         }
+    }
+
+    Byte operator[](u32 addr) const
+    {
+        return Data[addr];
     }
 };
 
@@ -38,7 +53,11 @@ struct CPU
     Byte O : 1; // overflow
     Byte N : 1; // negative
 
-    void reset(Memory memory)
+    const int FLAG_SIZE = 7;
+
+    /* Byte ProcessorStatus[FLAG_SIZE]; */
+
+    void reset(Memory &memory)
     {
         I = 1;
         ProgramCounter = 0xFFFc;
@@ -51,6 +70,22 @@ struct CPU
 
         memory.init();
     }
+
+    Byte fetchByte(u32 &ClockCycles, Memory &memory)
+    {
+        Byte Data = memory[ProgramCounter];
+        ProgramCounter++;
+        ClockCycles--;
+        return Data;
+    }
+
+    void exec(u32 ClockCycles, Memory &memory)
+    {
+        while (ClockCycles > 0)
+        {
+            Byte next_instruction = fetchByte(ClockCycles, memory);
+        }
+    }
 };
 
 int main()
@@ -58,5 +93,6 @@ int main()
     Memory memory;
     CPU cpu;
     cpu.reset(memory);
+    cpu.exec(2, memory); // executes 2 instructions from memory
     return 0;
 }
