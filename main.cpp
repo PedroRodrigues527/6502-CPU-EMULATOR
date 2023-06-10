@@ -1,7 +1,10 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
-/* https://youtu.be/qJgsuQoy9bc?t=1034 */
+// 6502 documentation
+// https://web.archive.org/web/20190130171422/http://www.obelisk.me.uk/6502/
+
+/* https://youtu.be/qJgsuQoy9bc?t=1400 */
 
 /* #define CARRY_FLAG 0
 #define ZERO_FLAG 1
@@ -30,6 +33,11 @@ struct Memory
     }
 
     Byte operator[](u32 addr) const
+    {
+        return Data[addr];
+    }
+
+    Byte &operator[](u32 addr) // write to memory
     {
         return Data[addr];
     }
@@ -79,20 +87,60 @@ struct CPU
         return Data;
     }
 
+    // opcodes
+    static constexpr Byte LDA = 0xA9; // immediate mode
+    static constexpr Byte LDX = 0xA2;
+    static constexpr Byte LDY = 0xA0;
+
     void exec(u32 ClockCycles, Memory &memory)
     {
         while (ClockCycles > 0)
         {
-            Byte next_instruction = fetchByte(ClockCycles, memory);
+            Byte instruction = fetchByte(ClockCycles, memory);
+
+            switch (instruction)
+            {
+            case LDA:
+            {
+                Byte value = fetchByte(ClockCycles, memory);
+                Acc = value;
+                if (value == 0)
+                {
+                    Z = 1;
+                }
+                if (value & (1 << 7)) // if last bit is set
+                // or (value & 0b10000000) > 0
+                {
+                    N = 1;
+                }
+                std::cout << "lda";
+                std::cout << "value->";
+                std::cout << value;
+                std::cout << "\n";
+            }
+            break;
+            default:
+                std::cout << "COMMAND NOT FOUND";
+
+                break;
+            }
         }
     }
 };
 
+void loadProgram(Memory &memory)
+{
+    memory[0xfffC] = CPU::LDA;
+    memory[0xfffD] = 0x42;
+}
+
 int main()
 {
+    std::cout << "\n";
     Memory memory;
     CPU cpu;
     cpu.reset(memory);
+    loadProgram(memory);
     cpu.exec(2, memory); // executes 2 instructions from memory
     return 0;
 }
