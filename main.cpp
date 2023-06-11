@@ -1,18 +1,19 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <bitset>
 // 6502 documentation
 // https://web.archive.org/web/20190130171422/http://www.obelisk.me.uk/6502/
 
 /* https://youtu.be/qJgsuQoy9bc?t=1400 */
 
-/* #define CARRY_FLAG 0
+#define CARRY_FLAG 0
 #define ZERO_FLAG 1
 #define INTERRUPT_DISABLE 2
 #define DECIMAL_MODE_FLAG 3
 #define BREAK_COMMAND 4
 #define OVERFLOW_FLAG 5
-#define NEGATIVE_FLAG 6 */
+#define NEGATIVE_FLAG 6
 
 using Byte = unsigned char;  // 1 byte (8 bits)
 using Word = unsigned short; // 2 bytes (16 bits)
@@ -60,20 +61,14 @@ struct CPU
     Byte B : 1; // break
     Byte O : 1; // overflow
     Byte N : 1; // negative
-
-    const int FLAG_SIZE = 7;
-
-    /* Byte ProcessorStatus[FLAG_SIZE]; */
+    
+    std::bitset<7> ProcessorStatus;
 
     void reset(Memory &memory)
     {
-        I = 1;
         ProgramCounter = 0xFFFc;
         StackPointer = 0x0100;
-        D = 0; // clear decimal flag
-        I = 0; // clear interrupt flag
-        Z = D = B = O = N = 0;
-        // registers to 0?
+        // ProcessorStatus is initialized as [0,0,0,0,0,0,0,0]
         Acc = RX = RY = 0;
 
         memory.init();
@@ -106,16 +101,20 @@ struct CPU
                 Acc = value;
                 if (value == 0)
                 {
-                    Z = 1;
+                    /* Z = 1; */
+                    ProcessorStatus.set(ZERO_FLAG, 1);
                 }
                 if (value & (1 << 7)) // if last bit is set
                 // or (value & 0b10000000) > 0
                 {
-                    N = 1;
+                    ProcessorStatus.set(NEGATIVE_FLAG, 1);
+                    /* N = 1; */
                 }
                 std::cout << "lda";
                 std::cout << "value->";
                 std::cout << value;
+                std::cout << "\nprocessor status->";
+                std::cout << ProcessorStatus;
                 std::cout << "\n";
             }
             break;
