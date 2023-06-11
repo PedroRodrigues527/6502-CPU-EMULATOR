@@ -5,8 +5,6 @@
 // 6502 documentation
 // https://web.archive.org/web/20190130171422/http://www.obelisk.me.uk/6502/
 
-/* https://youtu.be/qJgsuQoy9bc?t=1400 */
-
 #define CARRY_FLAG 0
 #define ZERO_FLAG 1
 #define INTERRUPT_DISABLE 2
@@ -101,14 +99,12 @@ struct CPU
                 Acc = value;
                 if (value == 0)
                 {
-                    /* Z = 1; */
                     ProcessorStatus.set(ZERO_FLAG, 1);
                 }
                 if (value & (1 << 7)) // if last bit is set
                 // or (value & 0b10000000) > 0
                 {
                     ProcessorStatus.set(NEGATIVE_FLAG, 1);
-                    /* N = 1; */
                 }
                 std::cout << "lda";
                 std::cout << "value->";
