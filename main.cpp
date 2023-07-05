@@ -79,7 +79,7 @@ struct CPU
         return Data;
     }
 
-    void LDA_flag_processing(Byte value)
+    void LOAD_flag_processing(Byte value)
     {
         if (value == 0)
         {
@@ -104,7 +104,7 @@ struct CPU
             {
                 Byte value = fetchByte(ClockCycles, memory);
                 Acc = value;
-                LDA_flag_processing(value);
+                LOAD_flag_processing(value);
                 /* std::cout << "lda\n";
                 std::cout << "value->";
                 std::cout << (int)value;
@@ -116,7 +116,7 @@ struct CPU
             {
                 Byte address = fetchByte(ClockCycles, memory);
                 Acc = readByte(ClockCycles, memory, address);
-                LDA_flag_processing(Acc);
+                LOAD_flag_processing(Acc);
             }
             case opcodes::LDA_ZERO_PAGE_X:
             {
@@ -125,19 +125,54 @@ struct CPU
                 ClockCycles--;
                 // TODO: verify when address overflows
                 Acc = readByte(ClockCycles, memory, address);
-                LDA_flag_processing(Acc);
+                LOAD_flag_processing(Acc);
+            }
+            case opcodes::LDX:
+            {
+                Byte value = fetchByte(ClockCycles, memory);
+                RX = value;
+                LOAD_flag_processing(value);
+                /* std::cout << "lda\n";
+                std::cout << "value->";
+                std::cout << (int)value;
+                std::cout << "\nprocessor status->";
+                std::cout << ProcessorStatus;
+                std::cout << "\n"; */
+            }
+            case opcodes::LDX_ZERO_PAGE:
+            {
+                Byte address = fetchByte(ClockCycles, memory);
+                RX = readByte(ClockCycles, memory, address);
+                LOAD_flag_processing(RX);
+            }
+            case opcodes::LDY:
+            {
+                Byte value = fetchByte(ClockCycles, memory);
+                RY = value;
+                LOAD_flag_processing(value);
+                /* std::cout << "lda\n";
+                std::cout << "value->";
+                std::cout << (int)value;
+                std::cout << "\nprocessor status->";
+                std::cout << ProcessorStatus;
+                std::cout << "\n"; */
+            }
+            case opcodes::LDY_ZERO_PAGE:
+            {
+                Byte address = fetchByte(ClockCycles, memory);
+                RY = readByte(ClockCycles, memory, address);
+                LOAD_flag_processing(RX);
             }
             break;
             default:
                 std::cout << "COMMAND NOT FOUND";
-
                 break;
             }
         }
     }
 };
 
-void loadProgram(Memory &memory)
+void loadTestProgram(Memory &memory)
 {
     memory[0xfffC] = opcodes::LDA_ZERO_PAGE;
     memory[0xfffD] = 0x42;
@@ -150,7 +185,7 @@ int main()
     Memory memory;
     CPU cpu;
     cpu.reset(memory);
-    loadProgram(memory);
+    loadTestProgram(memory);
     cpu.exec(3, memory); // executes 3 instructions from memory
     return 0;
 }
