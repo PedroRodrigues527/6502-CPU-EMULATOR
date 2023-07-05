@@ -1,7 +1,10 @@
+#include "opcodes/opcodes.h"
+
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <bitset>
+
 // 6502 documentation
 // https://web.archive.org/web/20190130171422/http://www.obelisk.me.uk/6502/
 
@@ -80,11 +83,6 @@ struct CPU
         return Data;
     }
 
-    // opcodes
-    static constexpr Byte LDA = 0xA9; // immediate mode
-    static constexpr Byte LDX = 0xA2;
-    static constexpr Byte LDY = 0xA0;
-
     void exec(u32 ClockCycles, Memory &memory)
     {
         while (ClockCycles > 0)
@@ -93,7 +91,7 @@ struct CPU
 
             switch (instruction)
             {
-            case LDA:
+            case opcodes::LDA:
             {
                 Byte value = fetchByte(ClockCycles, memory);
                 Acc = value;
@@ -106,12 +104,12 @@ struct CPU
                 {
                     ProcessorStatus.set(NEGATIVE_FLAG, 1);
                 }
-                std::cout << "lda";
+                /* std::cout << "lda\n";
                 std::cout << "value->";
-                std::cout << value;
+                std::cout << (int)value;
                 std::cout << "\nprocessor status->";
                 std::cout << ProcessorStatus;
-                std::cout << "\n";
+                std::cout << "\n"; */
             }
             break;
             default:
@@ -125,8 +123,8 @@ struct CPU
 
 void loadProgram(Memory &memory)
 {
-    memory[0xfffC] = CPU::LDA;
-    memory[0xfffD] = 0x42;
+    memory[0xfffC] = opcodes::LDA;
+    memory[0xfffD] = 0x42; //loads number 66 to memory
 }
 
 int main()
