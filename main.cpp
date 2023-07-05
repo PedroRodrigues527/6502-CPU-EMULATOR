@@ -72,11 +72,41 @@ struct CPU
         return Data;
     }
 
+    Byte readByte(u32 &ClockCycles, Memory &memory, Byte address)
+    {
+        Byte Data = memory[address];
+        ClockCycles--;
+        return Data;
+    }
+
+    void LDA_flag_processing(Byte value)
+    {
+        if (value == 0)
+        {
+            std::cout << "1f?";
+            ProcessorStatus.set(ZERO_FLAG, 1);
+            std::cout << ProcessorStatus;
+            std::cout << "\n";
+        }
+        if (value & (1 << 7)) // if last bit is set
+        // or (value & 0b10000000) > 0
+        {
+            std::cout << "2f?";
+            ProcessorStatus.set(NEGATIVE_FLAG, 1);
+            std::cout << ProcessorStatus;
+            std::cout << "\n";
+        }
+    }
+
     void exec(u32 ClockCycles, Memory &memory)
     {
+
+        std::cout << ProcessorStatus;
+        std::cout << "\n";
+
         while (ClockCycles > 0)
         {
-            Byte instruction = fetchByte(ClockCycles, memory);
+            Byte instruction = fetchByte(ClockCycles, memory); // loads number 66 to memory
 
             switch (instruction)
             {
@@ -84,19 +114,30 @@ struct CPU
             {
                 Byte value = fetchByte(ClockCycles, memory);
                 Acc = value;
-                if (value == 0)
-                {
-                    ProcessorStatus.set(ZERO_FLAG, 1);
-                }
-                if (value & (1 << 7)) // if last bit is set
-                // or (value & 0b10000000) > 0
-                {
-                    ProcessorStatus.set(NEGATIVE_FLAG, 1);
-                }
-                std::cout << "lda\n";
+                LDA_flag_processing(value);
+                /* std::cout << "lda\n";
                 std::cout << "value->";
                 std::cout << (int)value;
                 std::cout << "\nprocessor status->";
+                std::cout << ProcessorStatus;
+                std::cout << "\n"; */
+            }
+            case opcodes::LDA_ZERO_PAGE:
+            {
+
+                std::cout << ProcessorStatus;
+                std::cout << "\n";
+
+                Byte address = fetchByte(ClockCycles, memory);
+                Acc = readByte(ClockCycles, memory, address);
+                LDA_flag_processing(Acc);
+                std::cout << "lda\n";
+                std::cout << "value->";
+                std::cout << (int)Acc;
+                std::cout << "\nprocessor status->";
+                std::cout << ProcessorStatus;
+                std::cout << "\n";
+
                 std::cout << ProcessorStatus;
                 std::cout << "\n";
             }
@@ -112,8 +153,9 @@ struct CPU
 
 void loadProgram(Memory &memory)
 {
-    memory[0xfffC] = opcodes::LDA;
-    memory[0xfffD] = 0x42; //loads number 66 to memory
+    memory[0xfffC] = opcodes::LDA_ZERO_PAGE;
+    memory[0xfffD] = 0x42;
+    memory[0x42] = 0x84; // loads number 132 to memory
 }
 
 int main()
@@ -123,6 +165,6 @@ int main()
     CPU cpu;
     cpu.reset(memory);
     loadProgram(memory);
-    cpu.exec(2, memory); // executes 2 instructions from memory
+    cpu.exec(3, memory); // executes 3 instructions from memory
     return 0;
 }
