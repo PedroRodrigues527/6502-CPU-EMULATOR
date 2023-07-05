@@ -1,4 +1,5 @@
 #include "opcodes/opcodes.h"
+#include "data_types/data_types.h"
 
 #include <iostream>
 #include <stdio.h>
@@ -15,10 +16,6 @@
 #define BREAK_COMMAND 4
 #define OVERFLOW_FLAG 5
 #define NEGATIVE_FLAG 6
-
-using Byte = unsigned char;  // 1 byte (8 bits)
-using Word = unsigned short; // 2 bytes (16 bits)
-using u32 = unsigned int;    // 32bit
 
 struct Memory
 {
@@ -55,14 +52,6 @@ struct CPU
     Byte RX, RY;
 
     // flags
-    Byte C : 1; // carry
-    Byte Z : 1; // zero
-    Byte I : 1; // interrupt
-    Byte D : 1; // decimal
-    Byte B : 1; // break
-    Byte O : 1; // overflow
-    Byte N : 1; // negative
-    
     std::bitset<7> ProcessorStatus;
 
     void reset(Memory &memory)
@@ -104,12 +93,12 @@ struct CPU
                 {
                     ProcessorStatus.set(NEGATIVE_FLAG, 1);
                 }
-                /* std::cout << "lda\n";
+                std::cout << "lda\n";
                 std::cout << "value->";
                 std::cout << (int)value;
                 std::cout << "\nprocessor status->";
                 std::cout << ProcessorStatus;
-                std::cout << "\n"; */
+                std::cout << "\n";
             }
             break;
             default:
