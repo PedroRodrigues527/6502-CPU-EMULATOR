@@ -132,12 +132,6 @@ struct CPU
                 Byte value = fetchByte(ClockCycles, memory);
                 RX = value;
                 LOAD_flag_processing(value);
-                /* std::cout << "lda\n";
-                std::cout << "value->";
-                std::cout << (int)value;
-                std::cout << "\nprocessor status->";
-                std::cout << ProcessorStatus;
-                std::cout << "\n"; */
             }
             case opcodes::LDX_ZERO_PAGE:
             {
@@ -150,12 +144,6 @@ struct CPU
                 Byte value = fetchByte(ClockCycles, memory);
                 RY = value;
                 LOAD_flag_processing(value);
-                /* std::cout << "lda\n";
-                std::cout << "value->";
-                std::cout << (int)value;
-                std::cout << "\nprocessor status->";
-                std::cout << ProcessorStatus;
-                std::cout << "\n"; */
             }
             case opcodes::LDY_ZERO_PAGE:
             {
