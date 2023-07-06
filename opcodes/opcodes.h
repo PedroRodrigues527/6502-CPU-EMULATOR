@@ -17,5 +17,7 @@ namespace opcodes
     // Load to Register Y
     constexpr Byte LDY = 0xA0;
     constexpr Byte LDY_ZERO_PAGE = 0xA4;
+
+    constexpr Byte JSR = 0x20; // Jump to Subroutine
 }
 #endif
