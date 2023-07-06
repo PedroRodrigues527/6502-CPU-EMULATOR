@@ -50,10 +50,9 @@ struct Memory
         std::cout << value;
         std::cout << (int)Data[addr];
         std::cout << "\n";
-        std::cout << (int)Data[addr+1];
+        std::cout << (int)Data[addr + 1];
         clockCycles -= 2;
         std::cout << "\n";
-
     }
 };
 
@@ -95,7 +94,7 @@ struct CPU
         return Data;
     }
 
-    Word fetchWord(u32& ClockCycles, Memory& memory)
+    Word fetchWord(u32 &ClockCycles, Memory &memory)
     {
         Word Data = memory[ProgramCounter];
         ProgramCounter++;
@@ -203,29 +202,10 @@ struct CPU
             {
                 Word sub_routine_address = fetchWord(ClockCycles, memory);
                 memory.writeWord(ProgramCounter - 1, StackPointer++, ClockCycles);
-
                 ProgramCounter = sub_routine_address;
                 ClockCycles--;
-
-                std::costruct Memory
-{
-    static constexpr u32 MEMORY_MAX_SIZE = 1024 * 64; // 64KBytes
-    Byte Data[MEMORY_MAX_SIZE];
-
-    void init()
-    {
-        // reset memory
-        for (u32 i = 0; i < MEMORY_MAX_SIZE; i++)
-        {
-            Data[i] = 0;ut << "jsr\n";
-                std::cout << "sub_routine_address->";
-                std::cout << (int)sub_routine_address;
-                std::cout << "\nProgramCounter->";
-                std::cout << ProgramCounter;
-                std::cout << "\n";
                 break;
             }
-            break;
             default:
                 std::cout << "COMMAND NOT FOUND";
                 break;
@@ -251,4 +231,4 @@ int main()
     loadTestProgram(memory);
     cpu.exec(9, memory);
     return 0;
-}
+};
