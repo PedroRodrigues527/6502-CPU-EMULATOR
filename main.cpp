@@ -95,7 +95,7 @@ struct CPU
         return Data;
     }
 
-    Byte fetchWord(u32& ClockCycles, Memory& memory)
+    Word fetchWord(u32& ClockCycles, Memory& memory)
     {
         Word Data = memory[ProgramCounter];
         ProgramCounter++;
@@ -152,12 +152,14 @@ struct CPU
                 std::cout << "\nprocessor status->";
                 std::cout << ProcessorStatus;
                 std::cout << "\n";
+                break;
             }
             case opcodes::LDA_ZERO_PAGE:
             {
                 Byte address = fetchByte(ClockCycles, memory);
                 Acc = readByte(ClockCycles, memory, address);
                 LOAD_flag_processing(Acc);
+                break;
             }
             case opcodes::LDA_ZERO_PAGE_X:
             {
@@ -167,30 +169,35 @@ struct CPU
                 // TODO: verify when address overflows
                 Acc = readByte(ClockCycles, memory, address);
                 LOAD_flag_processing(Acc);
+                break;
             }
             case opcodes::LDX:
             {
                 Byte value = fetchByte(ClockCycles, memory);
                 RX = value;
                 LOAD_flag_processing(value);
+                break;
             }
             case opcodes::LDX_ZERO_PAGE:
             {
                 Byte address = fetchByte(ClockCycles, memory);
                 RX = readByte(ClockCycles, memory, address);
                 LOAD_flag_processing(RX);
+                break;
             }
             case opcodes::LDY:
             {
                 Byte value = fetchByte(ClockCycles, memory);
                 RY = value;
                 LOAD_flag_processing(value);
+                break;
             }
             case opcodes::LDY_ZERO_PAGE:
             {
                 Byte address = fetchByte(ClockCycles, memory);
                 RY = readByte(ClockCycles, memory, address);
                 LOAD_flag_processing(RX);
+                break;
             }
             case opcodes::JSR:
             {
@@ -200,12 +207,23 @@ struct CPU
                 ProgramCounter = sub_routine_address;
                 ClockCycles--;
 
-                std::cout << "jsr\n";
+                std::costruct Memory
+{
+    static constexpr u32 MEMORY_MAX_SIZE = 1024 * 64; // 64KBytes
+    Byte Data[MEMORY_MAX_SIZE];
+
+    void init()
+    {
+        // reset memory
+        for (u32 i = 0; i < MEMORY_MAX_SIZE; i++)
+        {
+            Data[i] = 0;ut << "jsr\n";
                 std::cout << "sub_routine_address->";
                 std::cout << (int)sub_routine_address;
                 std::cout << "\nProgramCounter->";
                 std::cout << ProgramCounter;
                 std::cout << "\n";
+                break;
             }
             break;
             default:
