@@ -46,13 +46,7 @@ struct Memory
         Data[addr] = value & 0xFF;
         Data[addr + 1] = (value >> 8);
 
-        std::cout << "\nWRITE WORD\n";
-        std::cout << value;
-        std::cout << (int)Data[addr];
-        std::cout << "\n";
-        std::cout << (int)Data[addr + 1];
         clockCycles -= 2;
-        std::cout << "\n";
     }
 };
 
@@ -80,15 +74,7 @@ struct CPU
 
     Byte fetchByte(u32 &ClockCycles, Memory &memory)
     {
-        std::cout << "fetching byte\n";
-        std::cout << "ProgramCounter-> ";
-        std::cout << ProgramCounter;
         Byte Data = memory[ProgramCounter];
-        std::cout << "\nData-> ";
-        std::cout << "";
-        std::cout << (int)Data;
-        std::cout << "\n";
-
         ProgramCounter++;
         ClockCycles--;
         return Data;
@@ -129,14 +115,9 @@ struct CPU
 
     void exec(u32 ClockCycles, Memory &memory)
     {
-        std::cout << "**** start exec ****\n";
         while (ClockCycles > 0)
         {
-            std::cout << "starting fetch: \n";
             Byte instruction = fetchByte(ClockCycles, memory);
-            std::cout << "\ninstruction: ";
-            std::cout << (int)instruction;
-            std::cout << "\n";
 
             switch (instruction)
             {
@@ -145,12 +126,12 @@ struct CPU
                 Byte value = fetchByte(ClockCycles, memory);
                 Acc = value;
                 LOAD_flag_processing(value);
-                std::cout << "lda\n";
+                /* std::cout << "lda\n";
                 std::cout << "value->";
                 std::cout << (int)value;
                 std::cout << "\nprocessor status->";
                 std::cout << ProcessorStatus;
-                std::cout << "\n";
+                std::cout << "\n"; */
                 break;
             }
             case opcodes::LDA_ZERO_PAGE:
@@ -207,7 +188,8 @@ struct CPU
                 break;
             }
             default:
-                std::cout << "COMMAND NOT FOUND";
+                std::cout << "COMMAND NOT FOUND: ";
+                std::cout << (int)instruction;
                 break;
             }
         }
