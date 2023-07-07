@@ -1,11 +1,17 @@
 # 6502 CPU EMULATION
-Simple C++ emulation of MOS Technology 6502
+Simple C++ emulation of MOS Technology 6502.\
+The 6502 is a 8 bit (little endian) CPU, with a capability of addressing maximum of 64KB of memory, using a 16bits address bus.
 
 ## Avaliable assembly commands:
 - LDA (Load to Accumulator): save value Accumulator.
+  - Immediate, Zero Page and Zero Page X, mode avaliable.*
 - LDX (Load to Register X ): save value Register X.
+  - Immediate and Zero Page, mode avaliable.*
 - LDY (Load to Register Y): save value Register Y.
+  - Immediate and Zero Page, mode avaliable.*
 - JSR (Jump to subroutine): jump to given memory address.
+
+*More information here: https://web.archive.org/web/20190130160859/http://obelisk.me.uk/6502/addressing.html#ABS
 
 #### Current way to load programs:
 Add to ` void loadTestProgram(Memory &memory)` function in `main.cpp`
