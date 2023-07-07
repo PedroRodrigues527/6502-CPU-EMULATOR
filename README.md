@@ -1,5 +1,31 @@
 # 6502 CPU EMULATION
+Simple C++ emulation of MOS Technology 6502
 
+## Avaliable assembly commands:
+- LDA (Load to Accumulator): save value Accumulator.
+- LDX (Load to Register X ): save value Register X.
+- LDY (Load to Register Y): save value Register Y.
+- JSR (Jump to subroutine): jump to given memory address.
+
+#### Current way to load programs:
+Add to ` void loadTestProgram(Memory &memory)` function in `main.cpp`
+
+LDA, example:
+```c++
+memory[0x4242] = opcodes::LDA;
+memory[0x4243] = 0x84;
+```
+
+JSR, example:
+```
+memory[0xfffC] = opcodes::JSR;
+memory[0xfffD] = 0x42;
+memory[0xfffe] = 0x42;
+memory[0x4242] = opcodes::LDA;
+memory[0x4243] = 0x84;
+```
+
+<!--
 ## Index
 - [**Basic Architecutre**](#basic-architecutre)
 - [**Registers**](#registers)
@@ -19,6 +45,7 @@
 #### Program Counter: 
 - 16 bit register;
 - Points to the next instruction;
+-->
 <!-- ## Create a project
 ```
 cargo new name_of_the_project
