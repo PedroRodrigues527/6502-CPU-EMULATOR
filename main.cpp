@@ -229,6 +229,6 @@ int main()
     CPU cpu;
     cpu.reset(memory);
     loadTestProgram(memory);
-    cpu.exec(9, memory);
+    cpu.exec(8, memory);
     return 0;
 };
