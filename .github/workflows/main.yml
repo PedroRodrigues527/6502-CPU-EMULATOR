@@ -1,0 +1,15 @@
+on:
+  push:
+    branches: [ main ]
+name: Compiling code
+jobs:
+  web-deploy:
+    name: Compiling
+    runs-on: ubuntu-latest
+    steps:
+    - name: Fetching latest code
+      uses: actions/checkout@v3
+      
+    - name: Running script
+      run: ./compile.sh
+      
