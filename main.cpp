@@ -126,12 +126,6 @@ struct CPU
                 Byte value = fetchByte(ClockCycles, memory);
                 Acc = value;
                 LOAD_flag_processing(value);
-                /* std::cout << "lda\n";
-                std::cout << "value->";
-                std::cout << (int)value;
-                std::cout << "\nprocessor status->";
-                std::cout << ProcessorStatus;
-                std::cout << "\n"; */
                 break;
             }
             case opcodes::LDA_ZERO_PAGE:
@@ -209,17 +203,111 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 {
     std::cout << "TESTING CPU...\n";
 
+    // LDA
     memory[0xfffC] = opcodes::LDA;
     memory[0xfffD] = 0x42;
 
     cpu.exec(2, memory);
 
-    if (cpu.Acc == 0x42)
+    if (cpu.Acc != 0x42)
     {
         std::cout << "LDA ERROR";
         return 1;
     }
 
+    cpu.reset(memory);
+
+    // LDA ZERO PAGE
+    memory[0xfffC] = opcodes::LDA_ZERO_PAGE;
+    memory[0xfffD] = 0xff;
+    memory[0xff] = 0x42;
+
+    cpu.exec(3, memory);
+
+    if (cpu.Acc != 0x42)
+    {
+        std::cout << "LDA ZERO PAGE ERROR";
+        return 1;
+    }
+
+    cpu.reset(memory);
+
+    // LDA ZERO PAGE X
+    memory[0xfffC] = opcodes::LDA_ZERO_PAGE_X;
+    cpu.RX = 0x11;
+    memory[0xfffD] = 0x20;
+
+    memory[0x31] = 0x22;
+
+    cpu.exec(4, memory);
+
+    if (cpu.Acc != 0x22)
+    {
+        std::cout << "\nLDA ZERO PAGE X ERROR\n";
+        return 1;
+    }
+
+    cpu.reset(memory);
+
+    // LDX
+    memory[0xfffC] = opcodes::LDX;
+    memory[0xfffD] = 0x42;
+
+    cpu.exec(2, memory);
+
+    if (cpu.RX != 0x42)
+    {
+        std::cout << "LDX ERROR";
+        return 1;
+    }
+
+    cpu.reset(memory);
+
+    // LDX ZERO PAGE
+    memory[0xfffC] = opcodes::LDX_ZERO_PAGE;
+    memory[0xfffD] = 0xff;
+    memory[0xff] = 0x42;
+
+    cpu.exec(3, memory);
+
+    if (cpu.RX != 0x42)
+    {
+        std::cout << "LDX ZERO PAGE ERROR";
+        return 1;
+    }
+
+    cpu.reset(memory);
+
+    // LDY
+    memory[0xfffC] = opcodes::LDY;
+    memory[0xfffD] = 0x42;
+
+    cpu.exec(2, memory);
+
+    if (cpu.RY != 0x42)
+    {
+        std::cout << "LDY ERROR";
+        return 1;
+    }
+
+    cpu.reset(memory);
+
+    // LDY ZERO PAGE
+    memory[0xfffC] = opcodes::LDY_ZERO_PAGE;
+    memory[0xfffD] = 0xff;
+    memory[0xff] = 0x42;
+
+    cpu.exec(3, memory);
+
+    if (cpu.RY != 0x42)
+    {
+        std::cout << "LDY ZERO PAGE ERROR";
+        return 1;
+    }
+
+    cpu.reset(memory);
+
+    std::cout << "ALL TESTS PASSED!\n";
     return 0;
 }
 
@@ -228,8 +316,6 @@ int main()
     Memory memory;
     CPU cpu;
     cpu.reset(memory);
-    // loadTestProgram(memory);
-    // cpu.exec(8, memory);
 
     if (isCPUWithErrors(memory, cpu))
     {
@@ -237,6 +323,9 @@ int main()
     }
     else
     {
+        cpu.reset(memory);
+        loadTestProgram(memory);
+        cpu.exec(8, memory);
         return 0;
     }
 };
