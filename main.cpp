@@ -198,8 +198,6 @@ struct CPU
 
 void loadTestProgram(Memory &memory)
 {
-
-    &
     memory[0xfffC] = opcodes::JSR;
     memory[0xfffD] = 0x42;
     memory[0xfffe] = 0x42;
