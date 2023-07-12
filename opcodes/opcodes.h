@@ -20,4 +20,5 @@ namespace opcodes
 
     constexpr Byte JSR = 0x20; // Jump to Subroutine
 }
+
 #endif

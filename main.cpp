@@ -1,4 +1,5 @@
 #include "opcodes/opcodes.h"
+#include "cycles/cycles.h"
 #include "data_types/data_types.h"
 
 #include <iostream>
@@ -207,7 +208,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     memory[0xfffC] = opcodes::LDA;
     memory[0xfffD] = 0x42;
 
-    cpu.exec(2, memory);
+    cpu.exec(cycles::LOAD_CYCLES, memory);
 
     if (cpu.Acc != 0x42)
     {
@@ -222,7 +223,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     memory[0xfffD] = 0xff;
     memory[0xff] = 0x42;
 
-    cpu.exec(3, memory);
+    cpu.exec(cycles::LOAD_ZERO_CYCLES, memory);
 
     if (cpu.Acc != 0x42)
     {
@@ -239,7 +240,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     memory[0x31] = 0x22;
 
-    cpu.exec(4, memory);
+    cpu.exec(cycles::LOAD_ZERO_X_CYCLES, memory);
 
     if (cpu.Acc != 0x22)
     {
@@ -253,7 +254,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     memory[0xfffC] = opcodes::LDX;
     memory[0xfffD] = 0x42;
 
-    cpu.exec(2, memory);
+    cpu.exec(cycles::LOAD_CYCLES, memory);
 
     if (cpu.RX != 0x42)
     {
@@ -268,7 +269,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     memory[0xfffD] = 0xff;
     memory[0xff] = 0x42;
 
-    cpu.exec(3, memory);
+    cpu.exec(cycles::LOAD_ZERO_CYCLES, memory);
 
     if (cpu.RX != 0x42)
     {
@@ -282,7 +283,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     memory[0xfffC] = opcodes::LDY;
     memory[0xfffD] = 0x42;
 
-    cpu.exec(2, memory);
+    cpu.exec(cycles::LOAD_CYCLES, memory);
 
     if (cpu.RY != 0x42)
     {
@@ -297,7 +298,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     memory[0xfffD] = 0xff;
     memory[0xff] = 0x42;
 
-    cpu.exec(3, memory);
+    cpu.exec(cycles::LOAD_ZERO_CYCLES, memory);
 
     if (cpu.RY != 0x42)
     {
@@ -316,7 +317,7 @@ int main(int argc, char *argv[])
     Memory memory;
     CPU cpu;
     cpu.reset(memory);
-    
+
     if (argc >= 2 && std::string(argv[1]) == "--check_errors" && isCPUWithErrors(memory, cpu))
     {
         return EXIT_FAILURE;
@@ -325,7 +326,7 @@ int main(int argc, char *argv[])
     {
         cpu.reset(memory);
         loadTestProgram(memory);
-        cpu.exec(8, memory);
+        cpu.exec(cycles::JSR_CYCLES, memory);
         return 0;
     }
     return 0;
