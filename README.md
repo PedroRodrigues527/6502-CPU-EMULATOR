@@ -2,10 +2,11 @@
 Simple C++ emulation of MOS Technology 6502.\
 The 6502 is a 8 bit (little endian) CPU, with a capability of addressing maximum of 64KB of memory, using a 16bits address bus.
 
-## Contributing
+<!--## Contributing
 After making the changes, create a branch, make a pull request to branch `pre-main`. See the code, and merge it.
 After merge it, make a PR from `pre-main` to `main`, and see the github actions
 
+-->
 ## Avaliable assembly commands:
 - LDA (Load to Accumulator): save value Accumulator.
   - Immediate, Zero Page and Zero Page X, mode avaliable.*
