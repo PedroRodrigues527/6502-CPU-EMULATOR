@@ -1,7 +1,7 @@
 on:
   push:
     branches: [ main ]
-name: Verifying code
+name: Compile and Test
 jobs:
   web-deploy:
     name: Compiling
