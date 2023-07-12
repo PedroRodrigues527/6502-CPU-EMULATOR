@@ -214,7 +214,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     cpu.exec(2, memory);
 
-    if (cpu.Acc == 0x42)
+    if (cpu.Acc != 0x42)
     {
         std::cout << "LDA ERROR";
         return 1;
