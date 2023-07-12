@@ -1,7 +1,7 @@
 on:
   push:
     branches: [ main ]
-name: Compiling code
+name: Verifying code
 jobs:
   web-deploy:
     name: Compiling
@@ -10,6 +10,9 @@ jobs:
     - name: Fetching latest code
       uses: actions/checkout@v3
       
-    - name: Running script
+    - name: Compiling
       run: ./compile.sh
+
+    - name: Testing operations
+      run: ./testing_operations.sh
       
