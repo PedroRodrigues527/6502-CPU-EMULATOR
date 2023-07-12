@@ -1,1 +1,1 @@
-g++ -c main.cpp && g++ main.o -o '6502_processor' -lsfml-graphics -lsfml-window -lsfml-system && rm main.o && ./6502_processor
+g++ -c main.cpp && g++ main.o -o '6502_processor' && rm main.o && ./6502_processor
