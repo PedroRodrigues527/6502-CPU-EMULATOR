@@ -205,12 +205,38 @@ void loadTestProgram(Memory &memory)
     memory[0x4243] = 0x84;
 }
 
+bool isCPUWithErrors(Memory &memory, CPU &cpu)
+{
+    std::cout << "TESTING CPU...\n";
+
+    memory[0xfffC] = opcodes::LDA;
+    memory[0xfffD] = 0x42;
+
+    cpu.exec(2, memory);
+
+    if (cpu.Acc == 0x42)
+    {
+        std::cout << "LDA ERROR";
+        return 1;
+    }
+
+    return 0;
+}
+
 int main()
 {
     Memory memory;
     CPU cpu;
     cpu.reset(memory);
-    loadTestProgram(memory);
-    cpu.exec(8, memory);
-    return 0;
+    // loadTestProgram(memory);
+    // cpu.exec(8, memory);
+
+    if (isCPUWithErrors(memory, cpu))
+    {
+        return EXIT_FAILURE;
+    }
+    else
+    {
+        return 0;
+    }
 };
