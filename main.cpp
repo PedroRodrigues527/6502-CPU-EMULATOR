@@ -308,7 +308,24 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     cpu.reset(memory);
 
-    std::cout << "ALL TESTS PASSED!\n";
+    // JSR
+    memory[0xfffC] = opcodes::JSR;
+    memory[0xfffD] = 0x42;
+    memory[0xfffe] = 0x42;
+    memory[0x4242] = opcodes::LDA;
+    memory[0x4243] = 0x84;
+
+    cpu.exec(cycles::JSR_CYCLES, memory);
+
+    if (cpu.Acc != 0x84)
+    {
+        std::cout << "JSR ERROR";
+        return 1;
+    }
+
+    cpu.reset(memory);
+
+    std::cout << "\nALL TESTS PASSED!\n";
     return 0;
 }
 
