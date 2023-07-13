@@ -4,7 +4,7 @@ on:
 name: Verifying code
 jobs:
   web-deploy:
-    name: Compiling
+    name: Compile and Test
     runs-on: ubuntu-latest
     steps:
     - name: Fetching latest code
