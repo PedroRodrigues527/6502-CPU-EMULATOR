@@ -98,154 +98,121 @@ cargo --version
 | `src/main.rs`   | Contains the main binary.                     |
  -->
 
- #### Instructions:
-
- ADC
-AND
-ASL
-BCC
-BCS
-BEQ
-BIT
-BMI
-BNE
-BPL
-BRK
-BVC
-BVS
-CLC
-CLD
-CLI
-CLV
-CMP
-CPX
-CPY
-DEC
-DEX
-DEY
-EOR
-INC
-INX
-INY
-JM| -------         | --------------------------------------------- |
-| `Cargo.toml`    | File that contains metadata for the project, and list of depencies/external libraries to use|
-| `src/main.rs`   | Contains the main binary.                     |
- -->
-
- #### Instructions:
-
--[ ] ADC
--[ ] AND
--[ ] ASL
--[ ] BCC
--[ ] BCS
--[ ] BEQ
--[ ] BIT
--[ ] BMI
--[ ] BNE
--[ ] BPL
--[ ] BRK
--[ ] BVC
--[ ] BVS
--[ ] CLC
--[ ] CLD
--[ ] CLI
--[ ] CLV
--[ ] CMP
--[ ] CPX
--[ ] CPY
--[ ] DEC
--[ ] DEX
--[ ] DEY
--[ ] EOR
--[ ] INC
--[ ] INX
--[ ] INY
--[ ] JMP
--[X] JSR
--[ ] LDA
--[ ] LDX
--[ ] LDY
--[ ] LSR
--[ ] NOP
--[ ] ORA
--[ ] PHA
--[ ] PHP
--[ ] PLA
--[ ] PLP
--[ ] ROL
--[ ] ROR
--[ ] RTI
--[ ] RTS
--[ ] SBC
--[ ] SEC
--[ ] SED
--[ ] SEI
--[ ] STA
--[ ] STX
--[ ] STY
--[ ] TAX
--[ ] TAY
--[ ] TSX
--[ ] TXA
--[ ] TXS
--[ ] TYA
--[ ] ADC
--[ ] AND
--[ ] ASL
--[ ] BCC
--[ ] BCS
--[ ] BEQ
--[ ] BIT
--[ ] BMI
--[ ] BNE
--[ ] BPL
--[ ] BRK
--[ ] BVC
--[ ] BVS
--[ ] CLC
--[ ] CLD
--[ ] CLI
--[ ] CLV
--[ ] CMP
--[ ] CPX
--[ ] CPY
--[ ] DEC
--[ ] DEX
--[ ] DEY
--[ ] EOR
--[ ] INC
--[ ] INX
--[ ] INY
--[ ] JMP
--[ ] JSR
--[X] LDA
--[X] LDX
--[X] LDY
--[ ] LSR
--[ ] NOP
--[ ] ORA
--[ ] PHA
--[ ] PHP
--[ ] PLA
--[ ] PLP
--[ ] ROL
--[ ] ROR
--[ ] RTI
--[ ] RTS
--[ ] SBC
--[ ] SEC
--[ ] SED
--[ ] SEI
--[ ] STA
--[ ] STX
--[ ] STY
--[ ] TAX
--[ ] TAY
--[ ] TSX
--[ ] TXA
--[ ] TXS
--[ ] TYA
 ## Online Documentation:
 - CPU description: https://web.archive.org/web/20190130171422/http://www.obelisk.me.uk/6502/
+
+## Instructions list:
+
+- [ ] ADC
+- [ ] AND
+- [ ] ASL
+- [ ] BCC
+- [ ] BCS
+- [ ] BEQ
+- [ ] BIT
+- [ ] BMI
+- [ ] BNE
+- [ ] BPL
+- [ ] BRK
+- [ ] BVC
+- [ ] BVS
+- [ ] CLC
+- [ ] CLD
+- [ ] CLI
+- [ ] CLV
+- [ ] CMP
+- [ ] CPX
+- [ ] CPY
+- [ ] DEC
+- [ ] DEX
+- [ ] DEY
+- [ ] EOR
+- [ ] INC
+- [ ] INX
+- [ ] INY
+- [ ] JMP
+- [X] JSR
+- [ ] LDA
+- [ ] LDX
+- [ ] LDY
+- [ ] LSR
+- [ ] NOP
+- [ ] ORA
+- [ ] PHA
+- [ ] PHP
+- [ ] PLA
+- [ ] PLP
+- [ ] ROL
+- [ ] ROR
+- [ ] RTI
+- [ ] RTS
+- [ ] SBC
+- [ ] SEC
+- [ ] SED
+- [ ] SEI
+- [ ] STA
+- [ ] STX
+- [ ] STY
+- [ ] TAX
+- [ ] TAY
+- [ ] TSX
+- [ ] TXA
+- [ ] TXS
+- [ ] TYA
+- [ ] ADC
+- [ ] AND
+- [ ] ASL
+- [ ] BCC
+- [ ] BCS
+- [ ] BEQ
+- [ ] BIT
+- [ ] BMI
+- [ ] BNE
+- [ ] BPL
+- [ ] BRK
+- [ ] BVC
+- [ ] BVS
+- [ ] CLC
+- [ ] CLD
+- [ ] CLI
+- [ ] CLV
+- [ ] CMP
+- [ ] CPX
+- [ ] CPY
+- [ ] DEC
+- [ ] DEX
+- [ ] DEY
+- [ ] EOR
+- [ ] INC
+- [ ] INX
+- [ ] INY
+- [ ] JMP
+- [ ] JSR
+- [X] LDA
+- [X] LDX
+- [X] LDY
+- [ ] LSR
+- [ ] NOP
+- [ ] ORA
+- [ ] PHA
+- [ ] PHP
+- [ ] PLA
+- [ ] PLP
+- [ ] ROL
+- [ ] ROR
+- [ ] RTI
+- [ ] RTS
+- [ ] SBC
+- [ ] SEC
+- [ ] SED
+- [ ] SEI
+- [ ] STA
+- [ ] STX
+- [ ] STY
+- [ ] TAX
+- [ ] TAY
+- [ ] TSX
+- [ ] TXA
+- [ ] TXS
+- [ ] TYA
 
