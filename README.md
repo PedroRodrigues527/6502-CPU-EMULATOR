@@ -88,7 +88,7 @@ memory[0x4243] = 0x84;
 - [ ] SEC
 - [ ] SED
 - [ ] SEI
-- [ ] STA
+- [X] STA (only zero page)
 - [ ] STX
 - [ ] STY
 - [ ] TAX

@@ -19,6 +19,9 @@ namespace opcodes
     constexpr Byte LDY_ZERO_PAGE = 0xA4;
 
     constexpr Byte JSR = 0x20; // Jump to Subroutine
+
+    constexpr Byte STA_ZERO_PAGE = 0x85; // Jump to Subroutine
+
 }
 
 #endif

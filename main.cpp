@@ -108,7 +108,6 @@ struct CPU
             ProcessorStatus.set(ZERO_FLAG, 1);
         }
         if (value & (1 << 7)) // if last bit is set
-        // or (value & 0b10000000) > 0
         {
             ProcessorStatus.set(NEGATIVE_FLAG, 1);
         }
@@ -180,6 +179,14 @@ struct CPU
                 memory.writeWord(ProgramCounter - 1, StackPointer++, ClockCycles);
                 ProgramCounter = sub_routine_address;
                 ClockCycles--;
+                break;
+            }
+            case opcodes::STA_ZERO_PAGE:
+            {
+                Byte address = fetchByte(ClockCycles, memory);
+                Byte address_value = readByte(ClockCycles, memory, address);
+                Acc = address_value;
+
                 break;
             }
             default:
@@ -325,6 +332,19 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     cpu.reset(memory);
 
+    // STA ZERO PAGE
+    memory[0xfffC] = opcodes::STA_ZERO_PAGE;
+    memory[0xfffD] = 0xff;
+    memory[0xff] = 0x41;
+
+    cpu.exec(cycles::STA_ZERO_PAGE, memory);
+
+    if (cpu.Acc != 0x41)
+    {
+        std::cout << "STA ERROR";
+        return 1;
+    }
+
     std::cout << "\nALL TESTS PASSED!\n";
     return 0;
 }
@@ -343,7 +363,7 @@ int main(int argc, char *argv[])
     {
         cpu.reset(memory);
         loadTestProgram(memory);
-        cpu.exec(cycles::JSR_CYCLES, memory);
+        cpu.exec(cycles::JSR_CYCLES, memory); // verify number of cycles
         return 0;
     }
     return 0;
