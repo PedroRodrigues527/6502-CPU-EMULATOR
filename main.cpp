@@ -184,10 +184,8 @@ struct CPU
             case opcodes::STA_ZERO_PAGE:
             {
                 Byte address = fetchByte(ClockCycles, memory);
-                /* std::cout << "address" << (int) address; */
                 Byte address_value = readByte(ClockCycles, memory, address);
                 Acc = address_value;
-                /* ClockCycles--; */
 
                 break;
             }
