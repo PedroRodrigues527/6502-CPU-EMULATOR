@@ -21,6 +21,7 @@ namespace opcodes
     constexpr Byte JSR = 0x20; // Jump to Subroutine
 
     constexpr Byte STA_ZERO_PAGE = 0x85; // Jump to Subroutine
+    constexpr Byte STA_ZERO_PAGE_X = 0x85; // Jump to Subroutine
 
 }
 
