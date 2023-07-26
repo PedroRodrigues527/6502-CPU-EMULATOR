@@ -29,7 +29,7 @@ memory[0x4243] = 0x84;
 
 JSR, example:
 
-```
+```c++
 memory[0xfffC] = opcodes::JSR;
 memory[0xfffD] = 0x42;
 memory[0xfffe] = 0x42;
