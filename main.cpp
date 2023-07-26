@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <bitset>
+#include <fstream>
+#include <string>
 
 // 6502 documentation
 // https://web.archive.org/web/20190130171422/http://www.obelisk.me.uk/6502/
@@ -57,16 +59,21 @@ struct CPU
     Word StackPointer; // supports a 256 byte stack located between $0100 and $01FF
 
     // registers
-    Byte Acc; // supports a 256 byte stack located between $0100 and $01FF
+    Byte Acc;
     Byte RX, RY;
 
     // flags
     std::bitset<7> ProcessorStatus;
 
+    void incrementProgramCounter()
+    {
+        ProgramCounter++;
+    }
+
     void reset(Memory &memory)
     {
-        ProgramCounter = 0xFFFc;
-        StackPointer = 0x0100;
+        ProgramCounter = 0xfffc; // [0x0200, 0xffff]
+        StackPointer = 0x0100;   // [0x0100, 0x01ff]
         // ProcessorStatus is initialized as [0,0,0,0,0,0,0,0]
         Acc = RX = RY = 0;
 
@@ -76,7 +83,7 @@ struct CPU
     Byte fetchByte(u32 &ClockCycles, Memory &memory)
     {
         Byte Data = memory[ProgramCounter];
-        ProgramCounter++;
+        incrementProgramCounter();
         ClockCycles--;
         return Data;
     }
@@ -84,11 +91,11 @@ struct CPU
     Word fetchWord(u32 &ClockCycles, Memory &memory)
     {
         Word Data = memory[ProgramCounter];
-        ProgramCounter++;
+        incrementProgramCounter();
         ClockCycles--;
 
         Data |= (memory[ProgramCounter] << 8);
-        ProgramCounter++;
+        incrementProgramCounter();
         ClockCycles--;
 
         return Data;
@@ -123,9 +130,13 @@ struct CPU
             {
             case opcodes::LDA:
             {
+                std::cout << "LDA"
+                          << "\n";
                 Byte value = fetchByte(ClockCycles, memory);
                 Acc = value;
                 LOAD_flag_processing(value);
+
+                std::cout << (int)Acc << "\n";
                 break;
             }
             case opcodes::LDA_ZERO_PAGE:
@@ -147,9 +158,12 @@ struct CPU
             }
             case opcodes::LDX:
             {
+                std::cout << "LDX"
+                          << "\n";
                 Byte value = fetchByte(ClockCycles, memory);
                 RX = value;
                 LOAD_flag_processing(value);
+                std::cout << (int)RX << "\n";
                 break;
             }
             case opcodes::LDX_ZERO_PAGE:
@@ -205,6 +219,72 @@ void loadTestProgram(Memory &memory)
     memory[0xfffe] = 0x42;
     memory[0x4242] = opcodes::LDA;
     memory[0x4243] = 0x84;
+}
+
+Byte getOpcode(std::string instruction, bool isAddress)
+{
+    if (instruction == "LDA")
+    {
+        if (isAddress)
+            return opcodes::LDA_ZERO_PAGE;
+        return opcodes::LDA;
+    }
+    if (instruction == "LDX")
+    {
+        if (isAddress)
+            return opcodes::LDX_ZERO_PAGE;
+        return opcodes::LDX;
+    }
+    return 0x00;
+}
+
+int getCycles(std::string instruction, bool isAddress)
+{
+    if (instruction == "LDA" || instruction == "LDX" )
+    {
+        if (isAddress)
+            return cycles::LOAD_ZERO_CYCLES;
+        return cycles::LOAD_CYCLES;
+    }
+
+    return 0;
+}
+
+void compileAssemblyProgram(CPU &cpu, Memory &memory, std::string line) // assuming nothing is allocated from $0200 to $ffff
+{
+    int allocating_position = 0xfffC;
+
+    int cycles = 0;
+
+    Byte opcode;
+
+    std::fstream assembly_file;
+
+    assembly_file.open("assembly_code.txt", std::ios::in);
+
+    if (assembly_file.is_open())
+    {
+        while (getline(assembly_file, line))
+        {
+            std::string asm_instruction = line.substr(0, line.find(' '));
+
+            std::string asm_value = line.substr(line.find(' ') + 1, line.length());
+
+            std::string value = asm_value.substr(1, asm_value.length());
+
+            bool isAddress = (char)asm_value[0] == (char)'$';
+
+            memory[allocating_position] = getOpcode(asm_instruction, isAddress);
+            allocating_position++;
+            memory[allocating_position] = std::stoi(value);
+            allocating_position++;
+
+            cpu.exec(getCycles(asm_instruction, isAddress), memory);
+            // TODO: verify when to increment the allocating_position eg, in JSR
+        }
+
+        assembly_file.close();
+    }
 }
 
 bool isCPUWithErrors(Memory &memory, CPU &cpu)
@@ -362,8 +442,10 @@ int main(int argc, char *argv[])
     else
     {
         cpu.reset(memory);
-        loadTestProgram(memory);
-        cpu.exec(cycles::JSR_CYCLES, memory); // verify number of cycles
+        std::string line_code;
+        /* loadTestProgram(memory); */
+        compileAssemblyProgram(cpu, memory, line_code);
+        /* cpu.exec(cycles::JSR_CYCLES, memory); // verify number of cycles */
         return 0;
     }
     return 0;
