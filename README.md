@@ -3,6 +3,10 @@
 Simple C++ emulation of MOS Technology 6502.\
 The 6502 is a 8 bit (little endian) CPU, with a capability of addressing maximum of 64KB of memory, using a 16bits address bus.
 
+## Objective
+In this project, the main objective is to create a simple emulator for 6502 processor, with the capabilty to read assembly and to perform the correct instructions operation.\
+The project is still in "primitive" phase.
+
 ## Available assembly commands:
 
 - LDA (Load to Accumulator): save value Accumulator.
