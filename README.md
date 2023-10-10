@@ -4,7 +4,8 @@
 
 Simple C++ emulation of MOS Technology 6502.\
 The 6502 is a 8 bit (little endian) CPU, with a capability of addressing maximum of 64KB of memory, using a 16bits address bus.\
-<b>This project was only tested with Linux (Pop_Os!)<b>
+<b>This project was only tested with Linux (Pop_Os!)</b>
+<br>
 
 ## Objective
 In this project, the main objective is to create a simple emulator for 6502 processor, with the capabilty to read assembly and to perform the correct instructions operation.\
@@ -21,7 +22,7 @@ The project is still in "primitive" phase.
 - JSR (Jump to subroutine): jump to given memory address.
 - STA (Store to accumulator): store to accumulator register, the value in given memory position.
 
-\*More information here: https://web.archive.org/web/20190130160859/http://obelisk.me.uk/6502/addressing.html#ABS
+More information here: https://web.archive.org/web/20190130160859/http://obelisk.me.uk/6502/addressing.html#ABS
 
 #### Current way to load programs:
 
