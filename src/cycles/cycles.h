@@ -3,11 +3,11 @@
 
 namespace cycles
 {
-    int LOAD_CYCLES = 2; // immediate mode
-    int LOAD_ZERO_CYCLES = 3; 
-    int LOAD_ZERO_X_CYCLES = 4; 
-    int JSR_CYCLES = 8; 
-    int STA_ZERO_PAGE = 3;
+    extern const int LOAD_CYCLES;
+    extern const int LOAD_ZERO_CYCLES; 
+    extern const int LOAD_ZERO_X_CYCLES; 
+    extern const int JSR_CYCLES; 
+    extern const int STA_ZERO_PAGE;
 }
 
 #endif
