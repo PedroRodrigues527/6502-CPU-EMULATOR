@@ -9,10 +9,7 @@ jobs:
     steps:
     - name: Fetching latest code
       uses: actions/checkout@v3
-      
-    - name: Compiling
-      run: ./compile.sh
 
-    - name: Testing operations
-      run: ./testing_operations.sh
+    - name: Compile & Testing
+      run: ./test_cpu.sh
       
