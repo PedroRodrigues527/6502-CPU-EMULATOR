@@ -10,7 +10,7 @@
 #define NEGATIVE_FLAG 6
 
 #include <bitset>
-#include "Memory.h" // Assuming you have defined the Memory struct in Memory.h
+#include "Memory.h"
 #include "../opcodes/opcodes.h"
 
 struct CPU
