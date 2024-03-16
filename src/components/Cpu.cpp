@@ -67,13 +67,9 @@ void CPU::exec(u32 ClockCycles, Memory &memory)
             {
             case opcodes::LDA:
             {
-                std::cout << "LDA"
-                          << "\n";
                 Byte value = fetchByte(ClockCycles, memory);
                 Acc = value;
                 LOAD_flag_processing(value);
-
-                std::cout << (int)Acc << "\n";
                 break;
             }
             case opcodes::LDA_ZERO_PAGE:
@@ -95,12 +91,9 @@ void CPU::exec(u32 ClockCycles, Memory &memory)
             }
             case opcodes::LDX:
             {
-                std::cout << "LDX"
-                          << "\n";
                 Byte value = fetchByte(ClockCycles, memory);
                 RX = value;
                 LOAD_flag_processing(value);
-                std::cout << (int)RX << "\n";
                 break;
             }
             case opcodes::LDX_ZERO_PAGE:
