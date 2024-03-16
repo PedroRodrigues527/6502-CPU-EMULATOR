@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     else
     {
         cpu.reset(memory);
-        std::string line_code;
+        /* std::string line_code; */
         /* loadTestProgram(memory); */
         /* compileAssemblyProgram(cpu, memory, line_code); */
         /* cpu.exec(cycles::JSR_CYCLES, memory); // verify number of cycles */
