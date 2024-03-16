@@ -1,5 +1,5 @@
 #include "Cpu.h"
-#include <iostream> // for debugging, remove in production code
+#include <iostream>
 
 void CPU::incrementProgramCounter()
 {
