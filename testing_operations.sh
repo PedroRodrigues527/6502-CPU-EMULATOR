@@ -1,1 +1,1 @@
-g++ -c main.cpp && g++ main.o -o '6502_processor' && rm main.o && ./6502_processor --check_errors
+g++ -o '6502_processor' main.cpp components/*.cpp && ./6502_processor --check_errors
