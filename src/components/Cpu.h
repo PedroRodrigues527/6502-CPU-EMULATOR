@@ -27,11 +27,11 @@ struct CPU
 
     void incrementProgramCounter();
     void reset(Memory &memory);
-    Byte fetchByte(u32 &ClockCycles, Memory &memory);
-    Word fetchWord(u32 &ClockCycles, Memory &memory);
-    Byte readByte(u32 &ClockCycles, Memory &memory, Byte address);
+    Byte fetchByte(s32 &ClockCycles, Memory &memory);
+    Word fetchWord(s32 &ClockCycles, Memory &memory);
+    Byte readByte(s32 &ClockCycles, Memory &memory, Byte address);
     void LOAD_flag_processing(Byte value);
-    void exec(u32 ClockCycles, Memory &memory);
+    void exec(s32 ClockCycles, Memory &memory);
 };
 
 #endif

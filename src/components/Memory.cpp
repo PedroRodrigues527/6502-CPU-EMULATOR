@@ -18,10 +18,17 @@ Byte &Memory::operator[](u32 addr)
     return Data[addr];
 }
 
-void Memory::writeWord(Word value, u32 addr, u32 &clockCycles)
+void Memory::writeWord(Word value, u32 addr, s32 &clockCycles)
 {
     Data[addr] = value & 0xFF;
     Data[addr + 1] = (value >> 8);
 
     clockCycles -= 2;
 }
+
+void Memory::writeByte(Byte value, u32 addr, s32 &clockCycles)
+{
+    Data[addr] = value;
+    clockCycles--;
+}
+

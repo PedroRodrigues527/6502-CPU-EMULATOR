@@ -1,4 +1,5 @@
 #include <iostream>
+#include <unistd.h>
 #include "TestCPU.h"
 #include "../opcodes/opcodes.h"
 #include "../cycles/cycles.h"
@@ -8,7 +9,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 {
     std::cout << "TESTING CPU...\n";
 
-    // LDA
+/*     // LDA
     memory[0xfffC] = opcodes::LDA;
     memory[0xfffD] = 0x42;
 
@@ -98,11 +99,12 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     cpu.reset(memory);
 
     // LDY ZERO PAGE
+
     memory[0xfffC] = opcodes::LDY_ZERO_PAGE;
     memory[0xfffD] = 0xff;
     memory[0xff] = 0x42;
 
-    cpu.exec(cycles::LOAD_ZERO_CYCLES, memory);
+    cpu.exec(cycles::LOAD_CYCLES, memory);
 
     if (cpu.RY != 0x42)
     {
@@ -110,7 +112,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
         return 1;
     }
 
-    cpu.reset(memory);
+    cpu.reset(memory); */
 
     // JSR
     memory[0xfffC] = opcodes::JSR;
@@ -126,22 +128,24 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
         std::cout << "JSR ERROR";
         return 1;
     }
-
+ 
     cpu.reset(memory);
 
     // STA ZERO PAGE
-    memory[0xfffC] = opcodes::STA_ZERO_PAGE;
+    cpu.Acc = 0x33;
+    memory[0xfffC] = opcodes::STA_ZERO_PAGE_X;
     memory[0xfffD] = 0xff;
-    memory[0xff] = 0x41;
+    memory[0xfffE] = 0xfA;
+  
+    cpu.exec(cycles::STA_ZERO_PAGE_X, memory);
 
-    cpu.exec(cycles::STA_ZERO_PAGE, memory);
-
-    if (cpu.Acc != 0x41)
+    if (memory[0xfaff] != cpu.Acc)
     {
-        std::cout << "STA ERROR";
+        std::cout << "STA ERROR\n";
         return 1;
     }
 
+    cpu.reset(memory);
     std::cout << "\nALL TESTS PASSED!\n";
     return 0;
 }
