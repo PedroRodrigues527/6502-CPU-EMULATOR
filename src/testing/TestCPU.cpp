@@ -9,7 +9,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 {
     std::cout << "TESTING CPU...\n";
 
-/*     // LDA
+    // LDA
     memory[0xfffC] = opcodes::LDA;
     memory[0xfffD] = 0x42;
 
@@ -112,7 +112,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
         return 1;
     }
 
-    cpu.reset(memory); */
+    cpu.reset(memory);
 
     // JSR
     memory[0xfffC] = opcodes::JSR;
