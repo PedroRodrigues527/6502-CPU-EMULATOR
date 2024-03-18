@@ -114,14 +114,14 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     // JSR
     memory[0xfffC] = opcodes::JSR;
-    memory[0xfffD] = 0x42;
+    memory[0xfffD] = 0x41;
     memory[0xfffe] = 0x42;
-    memory[0x4242] = opcodes::LDA;
-    memory[0x4243] = 0x84;
+    memory[0x4241] = opcodes::LDA;
+    memory[0x4242] = 0x30;
 
     cpu.exec(cycles::JSR_CYCLES, memory);
 
-    if (cpu.Acc != 0x84)
+    if (cpu.Acc != 0x30)
     {
         std::cout << "JSR ERROR";
         return 1;
