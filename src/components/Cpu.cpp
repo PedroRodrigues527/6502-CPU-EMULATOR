@@ -16,7 +16,7 @@ void CPU::reset(Memory &memory)
     memory.init();
 }
 
-Byte CPU::fetchByte(u32 &ClockCycles, Memory &memory)
+Byte CPU::fetchByte(s32 &ClockCycles, Memory &memory)
 {
     Byte Data = memory[ProgramCounter];
     incrementProgramCounter();
@@ -24,7 +24,7 @@ Byte CPU::fetchByte(u32 &ClockCycles, Memory &memory)
     return Data;
 }
 
-Word CPU::fetchWord(u32 &ClockCycles, Memory &memory)
+Word CPU::fetchWord(s32 &ClockCycles, Memory &memory)
 {
     Word Data = memory[ProgramCounter];
     incrementProgramCounter();
@@ -37,7 +37,7 @@ Word CPU::fetchWord(u32 &ClockCycles, Memory &memory)
     return Data;
 }
 
-Byte CPU::readByte(u32 &ClockCycles, Memory &memory, Byte address)
+Byte CPU::readByte(s32 &ClockCycles, Memory &memory, Byte address)
 {
     Byte Data = memory[address];
     ClockCycles--;
@@ -56,88 +56,91 @@ void CPU::LOAD_flag_processing(Byte value)
     }
 }
 
-void CPU::exec(u32 ClockCycles, Memory &memory)
+void CPU::exec(s32 ClockCycles, Memory &memory)
 {
+    while (ClockCycles > 0)
     {
-        while (ClockCycles > 0)
+        Byte instruction = fetchByte(ClockCycles, memory);
+        switch (instruction)
         {
-            Byte instruction = fetchByte(ClockCycles, memory);
-
-            switch (instruction)
-            {
-            case opcodes::LDA:
-            {
-                Byte value = fetchByte(ClockCycles, memory);
-                Acc = value;
-                LOAD_flag_processing(value);
-                break;
-            }
-            case opcodes::LDA_ZERO_PAGE:
-            {
-                Byte address = fetchByte(ClockCycles, memory);
-                Acc = readByte(ClockCycles, memory, address);
-                LOAD_flag_processing(Acc);
-                break;
-            }
-            case opcodes::LDA_ZERO_PAGE_X:
-            {
-                Byte address = fetchByte(ClockCycles, memory);
-                address += RX;
-                ClockCycles--;
-                // TODO: verify when address overflows
-                Acc = readByte(ClockCycles, memory, address);
-                LOAD_flag_processing(Acc);
-                break;
-            }
-            case opcodes::LDX:
-            {
-                Byte value = fetchByte(ClockCycles, memory);
-                RX = value;
-                LOAD_flag_processing(value);
-                break;
-            }
-            case opcodes::LDX_ZERO_PAGE:
-            {
-                Byte address = fetchByte(ClockCycles, memory);
-                RX = readByte(ClockCycles, memory, address);
-                LOAD_flag_processing(RX);
-                break;
-            }
-            case opcodes::LDY:
-            {
-                Byte value = fetchByte(ClockCycles, memory);
-                RY = value;
-                LOAD_flag_processing(value);
-                break;
-            }
-            case opcodes::LDY_ZERO_PAGE:
-            {
-                Byte address = fetchByte(ClockCycles, memory);
-                RY = readByte(ClockCycles, memory, address);
-                LOAD_flag_processing(RX);
-                break;
-            }
-            case opcodes::JSR:
-            {
-                Word sub_routine_address = fetchWord(ClockCycles, memory);
-                memory.writeWord(ProgramCounter - 1, StackPointer++, ClockCycles);
-                ProgramCounter = sub_routine_address;
-                ClockCycles--;
-                break;
-            }
-            case opcodes::STA_ZERO_PAGE:
-            {
-                Byte address = fetchByte(ClockCycles, memory);
-                Byte address_value = readByte(ClockCycles, memory, address);
-                Acc = address_value;
-
-                break;
-            }
-            default:
-                std::cout << "COMMAND NOT FOUND: ";
-                std::cout << (int)instruction;
-                break;
-            }
+        case opcodes::LDA:
+        {
+            Byte value = fetchByte(ClockCycles, memory);
+            Acc = value;
+            LOAD_flag_processing(value);
+            break;
+        }
+        case opcodes::LDA_ZERO_PAGE:
+        {
+            Byte address = fetchByte(ClockCycles, memory);
+            Acc = readByte(ClockCycles, memory, address);
+            LOAD_flag_processing(Acc);
+            break;
+        }
+        case opcodes::LDA_ZERO_PAGE_X:
+        {
+            Byte address = fetchByte(ClockCycles, memory);
+            address += RX;
+            ClockCycles--;
+            // TODO: verify when address overflows
+            Acc = readByte(ClockCycles, memory, address);
+            LOAD_flag_processing(Acc);
+            break;
+        }
+        case opcodes::LDX:
+        {
+            Byte value = fetchByte(ClockCycles, memory);
+            RX = value;
+            LOAD_flag_processing(value);
+            break;
+        }
+        case opcodes::LDX_ZERO_PAGE:
+        {
+            Byte address = fetchByte(ClockCycles, memory);
+            RX = readByte(ClockCycles, memory, address);
+            LOAD_flag_processing(RX);
+            break;
+        }
+        case opcodes::LDY:
+        {
+            Byte value = fetchByte(ClockCycles, memory);
+            RY = value;
+            LOAD_flag_processing(value);
+            break;
+        }
+        case opcodes::LDY_ZERO_PAGE:
+        {
+            Byte address = fetchByte(ClockCycles, memory);
+            RY = readByte(ClockCycles, memory, address);
+            LOAD_flag_processing(RX);
+            break;
+        }
+        case opcodes::JSR:
+        {
+            Word sub_routine_address = fetchWord(ClockCycles, memory);
+            memory.writeWord(ProgramCounter - 1, StackPointer++, ClockCycles);
+            ProgramCounter = sub_routine_address;
+            ClockCycles--;
+            break;
+        }
+        case opcodes::STA_ZERO_PAGE:
+        {
+            Word addr = fetchByte(ClockCycles, memory);
+            memory.writeByte(Acc, addr, ClockCycles);
+            break;
+        }
+        case opcodes::STA_ZERO_PAGE_X:
+        {
+            Word address_to_store_acc = fetchWord(ClockCycles, memory);
+            memory.writeByte(Acc, address_to_store_acc, ClockCycles);
+            break;
+        }
+        default:
+            std::cout << "COMMAND NOT FOUND: ";
+            std::cout << (int)instruction << "\n";
+            break;
         }
     }
+    std::cout << "END OF EXECUTION\n";
+    
 }

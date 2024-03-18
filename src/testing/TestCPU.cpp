@@ -1,4 +1,5 @@
 #include <iostream>
+#include <unistd.h>
 #include "TestCPU.h"
 #include "../opcodes/opcodes.h"
 #include "../cycles/cycles.h"
@@ -98,11 +99,12 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     cpu.reset(memory);
 
     // LDY ZERO PAGE
+
     memory[0xfffC] = opcodes::LDY_ZERO_PAGE;
     memory[0xfffD] = 0xff;
     memory[0xff] = 0x42;
 
-    cpu.exec(cycles::LOAD_ZERO_CYCLES, memory);
+    cpu.exec(cycles::LOAD_CYCLES, memory);
 
     if (cpu.RY != 0x42)
     {
@@ -126,22 +128,39 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
         std::cout << "JSR ERROR";
         return 1;
     }
-
+ 
     cpu.reset(memory);
 
     // STA ZERO PAGE
+    cpu.Acc = 0x23;
     memory[0xfffC] = opcodes::STA_ZERO_PAGE;
-    memory[0xfffD] = 0xff;
-    memory[0xff] = 0x41;
+    memory[0xfffD] = 0xfb;
 
     cpu.exec(cycles::STA_ZERO_PAGE, memory);
 
-    if (cpu.Acc != 0x41)
+    if (memory[0xfb] != cpu.Acc)
     {
         std::cout << "STA ERROR";
         return 1;
     }
 
+    cpu.reset(memory);
+
+    // STA ZERO PAGE X
+    cpu.Acc = 0x33;
+    memory[0xfffC] = opcodes::STA_ZERO_PAGE_X;
+    memory[0xfffD] = 0xff;
+    memory[0xfffE] = 0xfA;
+  
+    cpu.exec(cycles::STA_ZERO_PAGE_X, memory);
+
+    if (memory[0xfaff] != cpu.Acc)
+    {
+        std::cout << "STA ERROR\n";
+        return 1;
+    }
+
+    cpu.reset(memory);
     std::cout << "\nALL TESTS PASSED!\n";
     return 0;
 }

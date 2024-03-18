@@ -5,7 +5,7 @@ namespace opcodes
 {
     using Byte = unsigned char; // 1 byte (8 bits)
 
-    // Load to accumulator (Acc)
+    // Load to accumulator
     constexpr Byte LDA = 0xA9; // immediate mode
     constexpr Byte LDA_ZERO_PAGE = 0xA5;
     constexpr Byte LDA_ZERO_PAGE_X = 0xB5;
@@ -20,13 +20,17 @@ namespace opcodes
 
     constexpr Byte JSR = 0x20; // Jump to Subroutine
 
-    constexpr Byte STA_ZERO_PAGE = 0x85;
+    constexpr Word STA_ZERO_PAGE = 0x85;
     constexpr Byte STA_ZERO_PAGE_X = 0x95;
-    constexpr Byte STA_ZERO_PAGE_ABSOLUTE = 0x8D;
-    constexpr Byte STA_ZERO_PAGE_ABSOLUTE_X = 0x9D;
-    constexpr Byte STA_ZERO_PAGE_ABSOLUTE_Y = 0x99;
+    constexpr u24 STA_ZERO_PAGE_ABSOLUTE = 0x8D;
+    constexpr u24 STA_ZERO_PAGE_ABSOLUTE_X = 0x9D;
+    constexpr u24 STA_ZERO_PAGE_ABSOLUTE_Y = 0x99;
     constexpr Byte STA_ZERO_PAGE_INDIRECT_X = 0x81;
     constexpr Byte STA_ZERO_PAGE_INDIRECT_Y = 0x91;
+
+    constexpr Byte STX_ZERO_PAGE = 0x86;
+    constexpr Byte STX_ZERO_PAGE_Y = 0x96;
+    constexpr u24 STX_ABSOLUTE = 0x8E;
 
 }
 

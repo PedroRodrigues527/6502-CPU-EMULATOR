@@ -14,7 +14,8 @@ struct Memory
 
     Byte &operator[](u32 addr);
 
-    void writeWord(Word value, u32 addr, u32 &clockCycles);
+    void writeWord(Word value, u32 addr, s32 &clockCycles);
+    void writeByte(Byte value, u32 addr, s32 &clockCycles);
 };
 
 #endif
