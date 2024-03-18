@@ -123,6 +123,12 @@ void CPU::exec(s32 ClockCycles, Memory &memory)
             ClockCycles--;
             break;
         }
+        case opcodes::STA_ZERO_PAGE:
+        {
+            Word addr = fetchByte(ClockCycles, memory);
+            memory.writeByte(Acc, addr, ClockCycles);
+            break;
+        }
         case opcodes::STA_ZERO_PAGE_X:
         {
             Word address_to_store_acc = fetchWord(ClockCycles, memory);
