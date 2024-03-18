@@ -156,7 +156,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     if (memory[0xfaff] != cpu.Acc)
     {
-        std::cout << "STA ERROR\n";
+        std::cout << "STA ZPX ERROR\n";
         return 1;
     }
 
