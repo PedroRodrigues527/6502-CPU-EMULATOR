@@ -141,6 +141,4 @@ void CPU::exec(s32 ClockCycles, Memory &memory)
             break;
         }
     }
-    std::cout << "END OF EXECUTION\n";
-    
 }
