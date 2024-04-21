@@ -30,6 +30,7 @@ struct CPU
     Byte fetchByte(s32 &ClockCycles, Memory &memory);
     Word fetchWord(s32 &ClockCycles, Memory &memory);
     Byte readByte(s32 &ClockCycles, Memory &memory, Byte address);
+    Word addAddresses(Word address1, Word address2, s32 &ClockCycles);
     void LOAD_flag_processing(Byte value);
     void exec(s32 ClockCycles, Memory &memory);
 };

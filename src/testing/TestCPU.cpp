@@ -147,6 +147,25 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     cpu.reset(memory);
 
     // STA ZERO PAGE X
+    cpu.Acc = 0x31;
+    cpu.RX = 0x8a;
+    memory[0xfffC] = opcodes::STA_ZERO_PAGE_X;
+    memory[0xfffD] =  0xfa;
+
+    Word newAddr = (Word)0x8a + (Word)0xfa;
+  
+    cpu.exec(cycles::STA_ZERO_PAGE_X, memory);
+
+    if ((Word)memory[newAddr] != (Word)cpu.Acc)
+    {
+        std::cout << (int)memory[newAddr] << std::endl;
+        std::cout << "STA ZPX ERROR\n";
+        return 1;
+    }
+
+    cpu.reset(memory);
+
+    // STA ZERO PAGE ABSOLUTE
     cpu.Acc = 0x33;
     memory[0xfffC] = opcodes::STA_ZERO_PAGE_ABSOLUTE;
     memory[0xfffD] = 0xff;

@@ -44,6 +44,20 @@ Byte CPU::readByte(s32 &ClockCycles, Memory &memory, Byte address)
     return Data;
 }
 
+/**
+ * Add 2 addresses
+ * @param Word address1
+ * @param Word address2
+ * @param s32 ClockCycles
+ * @returns Word - sum of the addresses
+*/
+Word CPU::addAddresses(Word address1, Word address2, s32 &ClockCycles)
+{
+    ClockCycles--;
+    Word result = address1 + address2;
+    return result;
+}
+
 void CPU::LOAD_flag_processing(Byte value)
 {
     if (value == 0)
@@ -127,6 +141,13 @@ void CPU::exec(s32 ClockCycles, Memory &memory)
         {
             Word addr = fetchByte(ClockCycles, memory);
             memory.writeByte(Acc, addr, ClockCycles);
+            break;
+        }
+        case opcodes::STA_ZERO_PAGE_X:
+        {
+            Byte address_from_instruction = fetchByte(ClockCycles, memory);
+            Word address_to_store_acc = addAddresses(address_from_instruction, RX, ClockCycles);
+            memory.writeByte(Acc, address_to_store_acc, ClockCycles);
             break;
         }
         case opcodes::STA_ZERO_PAGE_ABSOLUTE:
