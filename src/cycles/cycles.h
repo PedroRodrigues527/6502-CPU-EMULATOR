@@ -9,6 +9,7 @@ namespace cycles
     extern const int JSR_CYCLES; 
     extern const int STA_ZERO_PAGE;
     extern const int STA_ZERO_PAGE_X;
+    extern const int STA_ZERO_PAGE_ABSOLUTE;
     
 }
 

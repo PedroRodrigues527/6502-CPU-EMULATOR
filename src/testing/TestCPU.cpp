@@ -148,15 +148,15 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     // STA ZERO PAGE X
     cpu.Acc = 0x33;
-    memory[0xfffC] = opcodes::STA_ZERO_PAGE_X;
+    memory[0xfffC] = opcodes::STA_ZERO_PAGE_ABSOLUTE;
     memory[0xfffD] = 0xff;
     memory[0xfffE] = 0xfA;
   
-    cpu.exec(cycles::STA_ZERO_PAGE_X, memory);
+    cpu.exec(cycles::STA_ZERO_PAGE_ABSOLUTE, memory);
 
     if (memory[0xfaff] != cpu.Acc)
     {
-        std::cout << "STA ZPX ERROR\n";
+        std::cout << "STA ZPA ERROR\n";
         return 1;
     }
 

@@ -22,9 +22,9 @@ namespace opcodes
 
     constexpr Word STA_ZERO_PAGE = 0x85;
     constexpr Byte STA_ZERO_PAGE_X = 0x95;
-    constexpr u24 STA_ZERO_PAGE_ABSOLUTE = 0x8D;
-    constexpr u24 STA_ZERO_PAGE_ABSOLUTE_X = 0x9D;
-    constexpr u24 STA_ZERO_PAGE_ABSOLUTE_Y = 0x99;
+    constexpr Word STA_ZERO_PAGE_ABSOLUTE = 0x8D;
+    constexpr Byte STA_ZERO_PAGE_ABSOLUTE_X = 0x9D;
+    constexpr Byte STA_ZERO_PAGE_ABSOLUTE_Y = 0x99;
     constexpr Byte STA_ZERO_PAGE_INDIRECT_X = 0x81;
     constexpr Byte STA_ZERO_PAGE_INDIRECT_Y = 0x91;
 
