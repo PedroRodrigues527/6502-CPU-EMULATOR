@@ -5,6 +5,12 @@
 #include "../cycles/cycles.h"
 #include "../data_types/data_types.h"
 
+/**
+ * Run's tests for every operation avaliable in this emulator. Verifies CPU operations
+ * @param Memory &memory
+ * @param CPU &cpu
+ * @returns bool true if CPU has problems
+*/
 bool isCPUWithErrors(Memory &memory, CPU &cpu)
 {
     std::cout << "TESTING CPU...\n";

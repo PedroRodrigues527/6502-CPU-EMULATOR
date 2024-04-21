@@ -1,21 +1,35 @@
 #include "Cpu.h"
 #include <iostream>
 
+/**
+ * Increment the program counter
+*/
 void CPU::incrementProgramCounter()
 {
     ProgramCounter++;
 }
 
+/**
+ * Resets the memory and all of it's elements.
+ * @param Memory &memory
+ * @returns data from the memory
+*/
 void CPU::reset(Memory &memory)
 {
     ProgramCounter = 0xfffc; // [0x0200, 0xffff]
     StackPointer = 0x0100;   // [0x0100, 0x01ff]
-    // ProcessorStatus is initialized as [0,0,0,0,0,0,0,0]
     Acc = RX = RY = 0;
+    ProcessorStatus.reset();
 
     memory.init();
 }
 
+/**
+ * Fetch the byte of the current program counter address value.
+ * @param s32 &ClockCycles
+ * @param Memory &memory
+ * @returns data from the memory
+*/
 Byte CPU::fetchByte(s32 &ClockCycles, Memory &memory)
 {
     Byte Data = memory[ProgramCounter];
@@ -24,6 +38,12 @@ Byte CPU::fetchByte(s32 &ClockCycles, Memory &memory)
     return Data;
 }
 
+/**
+ * Fetch the word of the current program counter address value.
+ * @param s32 &ClockCycles
+ * @param Memory &memory
+ * @returns data from the memory
+*/
 Word CPU::fetchWord(s32 &ClockCycles, Memory &memory)
 {
     Word Data = memory[ProgramCounter];
@@ -37,6 +57,13 @@ Word CPU::fetchWord(s32 &ClockCycles, Memory &memory)
     return Data;
 }
 
+/**
+ * Add 2 addresses
+ * @param s32 &ClockCycles
+ * @param Memory &memory
+ * @param Byte address
+ * @returns Byte - data from address given
+*/
 Byte CPU::readByte(s32 &ClockCycles, Memory &memory, Byte address)
 {
     Byte Data = memory[address];
@@ -58,6 +85,10 @@ Word CPU::addAddresses(Word address1, Word address2, s32 &ClockCycles)
     return result;
 }
 
+/**
+ * Set's the bit set corresponding flag, according to the value, for LOAD operations.
+ * @param Byte value
+*/
 void CPU::LOAD_flag_processing(Byte value)
 {
     if (value == 0)
@@ -70,6 +101,12 @@ void CPU::LOAD_flag_processing(Byte value)
     }
 }
 
+/**
+ * Brain of the execution of the CPU instructions.
+ * @param s32 ClockCycles
+ * @param Memory &memory
+ * @returns Word - sum of the addresses
+*/
 void CPU::exec(s32 ClockCycles, Memory &memory)
 {
     while (ClockCycles > 0)
