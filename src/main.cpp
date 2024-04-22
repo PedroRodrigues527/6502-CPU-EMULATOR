@@ -19,6 +19,11 @@ int main(int argc, char *argv[])
     CPU cpu;
     cpu.reset(memory);
 
+/*     if (isCPUWithErrors(memory, cpu)) 
+    {
+        return EXIT_FAILURE;
+    } */
+
     if (argc >= 2 && std::string(argv[1]) == "--check_errors")
     {
         if (isCPUWithErrors(memory, cpu)) 
@@ -29,10 +34,6 @@ int main(int argc, char *argv[])
     else
     {
         cpu.reset(memory);
-        /* std::string line_code; */
-        /* loadTestProgram(memory); */
-        /* compileAssemblyProgram(cpu, memory, line_code); */
-        /* cpu.exec(cycles::JSR_CYCLES, memory); // verify number of cycles */
         return 0;
     }
     return 0;
