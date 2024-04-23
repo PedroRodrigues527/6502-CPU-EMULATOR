@@ -31,6 +31,12 @@ struct CPU
     Word fetchWord(s32 &ClockCycles, Memory &memory);
     Byte readByte(s32 &ClockCycles, Memory &memory, Byte address);
     Word addAddresses(Word address1, Word address2, s32 &ClockCycles);
+    Byte getAcc();
+    Byte getRX();
+    Byte getRY();
+    void setAcc(Byte value);
+    void setRX(Byte value);
+    void setRY(Byte value);
     void LOAD_flag_processing(Byte value);
     void exec(s32 ClockCycles, Memory &memory);
 };
