@@ -21,7 +21,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     cpu.exec(cycles::LOAD_CYCLES, memory);
 
-    if (cpu.Acc != 0x42)
+    if (cpu.getAcc() != 0x42)
     {
         std::cout << "LDA ERROR";
         return 1;
@@ -36,7 +36,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     cpu.exec(cycles::LOAD_ZERO_CYCLES, memory);
 
-    if (cpu.Acc != 0x42)
+    if (cpu.getAcc() != 0x42)
     {
         std::cout << "LDA ZERO PAGE ERROR";
         return 1;
@@ -46,14 +46,14 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     // LDA ZERO PAGE X
     memory[0xfffC] = opcodes::LDA_ZERO_PAGE_X;
-    cpu.RX = 0x11;
+    cpu.setRX(0x11);
     memory[0xfffD] = 0x20;
 
     memory[0x31] = 0x22;
 
     cpu.exec(cycles::LOAD_ZERO_X_CYCLES, memory);
 
-    if (cpu.Acc != 0x22)
+    if (cpu.getAcc() != 0x22)
     {
         std::cout << "\nLDA ZERO PAGE X ERROR\n";
         return 1;
@@ -67,7 +67,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     cpu.exec(cycles::LOAD_CYCLES, memory);
 
-    if (cpu.RX != 0x42)
+    if (cpu.getRX() != 0x42)
     {
         std::cout << "LDX ERROR";
         return 1;
@@ -82,7 +82,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     cpu.exec(cycles::LOAD_ZERO_CYCLES, memory);
 
-    if (cpu.RX != 0x42)
+    if (cpu.getRX() != 0x42)
     {
         std::cout << "LDX ZERO PAGE ERROR";
         return 1;
@@ -96,7 +96,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     cpu.exec(cycles::LOAD_CYCLES, memory);
 
-    if (cpu.RY != 0x42)
+    if (cpu.getRY() != 0x42)
     {
         std::cout << "LDY ERROR";
         return 1;
@@ -112,7 +112,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     cpu.exec(cycles::LOAD_CYCLES, memory);
 
-    if (cpu.RY != 0x42)
+    if (cpu.getRY() != 0x42)
     {
         std::cout << "LDY ZERO PAGE ERROR";
         return 1;
@@ -129,7 +129,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     cpu.exec(cycles::JSR_CYCLES, memory);
 
-    if (cpu.Acc != 0x30)
+    if (cpu.getAcc() != 0x30)
     {
         std::cout << "JSR ERROR";
         return 1;
@@ -138,13 +138,13 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     cpu.reset(memory);
 
     // STA ZERO PAGE
-    cpu.Acc = 0x23;
+    cpu.setAcc(0x23);
     memory[0xfffC] = opcodes::STA_ZERO_PAGE;
     memory[0xfffD] = 0xfb;
 
     cpu.exec(cycles::STA_ZERO_PAGE, memory);
 
-    if (memory[0xfb] != cpu.Acc)
+    if (memory[0xfb] != cpu.getAcc())
     {
         std::cout << "STA ERROR";
         return 1;
@@ -153,8 +153,8 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     cpu.reset(memory);
 
     // STA ZERO PAGE X
-    cpu.Acc = 0x31;
-    cpu.RX = 0x8a;
+    cpu.setAcc(0x31);
+    cpu.setRX(0x8a);
     memory[0xfffC] = opcodes::STA_ZERO_PAGE_X;
     memory[0xfffD] =  0xfa;
 
@@ -162,7 +162,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
   
     cpu.exec(cycles::STA_ZERO_PAGE_X, memory);
 
-    if ((Word)memory[newAddr] != (Word)cpu.Acc)
+    if ((Word)memory[newAddr] != (Word)cpu.getAcc())
     {
         std::cout << (int)memory[newAddr] << std::endl;
         std::cout << "STA ZPX ERROR\n";
@@ -172,14 +172,14 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     cpu.reset(memory);
 
     // STA ZERO PAGE ABSOLUTE
-    cpu.Acc = 0x33;
+    cpu.setAcc(0x33);
     memory[0xfffC] = opcodes::STA_ZERO_PAGE_ABSOLUTE;
     memory[0xfffD] = 0xff;
     memory[0xfffE] = 0xfA;
   
     cpu.exec(cycles::STA_ZERO_PAGE_ABSOLUTE, memory);
 
-    if (memory[0xfaff] != cpu.Acc)
+    if (memory[0xfaff] != cpu.getAcc())
     {
         std::cout << "STA ZPA ERROR\n";
         return 1;
