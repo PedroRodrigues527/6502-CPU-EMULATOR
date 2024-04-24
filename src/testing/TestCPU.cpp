@@ -158,11 +158,11 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     memory[0xfffC] = opcodes::STA_ZERO_PAGE_X;
     memory[0xfffD] =  0xfa;
 
-    Word newAddr = (Word)0x8a + (Word)0xfa;
+    Word newAddr = cpu.getRX() + 0xfa;
   
     cpu.exec(cycles::STA_ZERO_PAGE_X, memory);
 
-    if ((Word)memory[newAddr] != (Word)cpu.getAcc())
+    if (memory[newAddr] != cpu.getAcc())
     {
         std::cout << (int)memory[newAddr] << std::endl;
         std::cout << "STA ZPX ERROR\n";
