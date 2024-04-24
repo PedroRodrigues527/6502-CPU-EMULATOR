@@ -239,13 +239,20 @@ void CPU::exec(s32 ClockCycles, Memory &memory)
         case opcodes::STA_ZERO_PAGE_X:
         {
             Byte address_from_instruction = fetchByte(ClockCycles, memory);
-            Word address_to_store_acc = addAddresses(address_from_instruction, RX, ClockCycles);
+            Word address_to_store_acc = addAddresses(address_from_instruction, getRX(), ClockCycles);
             memory.writeByte(getAcc(), address_to_store_acc, ClockCycles);
             break;
         }
         case opcodes::STA_ZERO_PAGE_ABSOLUTE:
         {
             Word address_to_store_acc = fetchWord(ClockCycles, memory);
+            memory.writeByte(getAcc(), address_to_store_acc, ClockCycles);
+            break;
+        }
+        case opcodes::STA_ZERO_PAGE_ABSOLUTE_X:
+        {
+            Word address_from_instruction = fetchWord(ClockCycles, memory);
+            Word address_to_store_acc = addAddresses(address_from_instruction, getRX(), ClockCycles);
             memory.writeByte(getAcc(), address_to_store_acc, ClockCycles);
             break;
         }

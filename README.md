@@ -48,7 +48,7 @@ memory[0x4243] = 0x84;
 
 - CPU description: https://web.archive.org/web/20190130171422/http://www.obelisk.me.uk/6502/
 
-Instructions completed: 12/149 (8% completed)
+Instructions completed: 13/149
 
 I: Implemented \
 N: Not implemented \
@@ -103,7 +103,7 @@ N: Not implemented \
 | SEC         | Set Carry Flag              | -              | -              | -                | -                | -             | -               | -               | -               | -               | -                | -             | N            | -             |
 | SED         | SED - Set Decimal Flag      | -              | -              | -                | -                | -             | -               | -               | -               | -               | -                | -             | N            | -             |
 | SEI         | Set Interrupt Disable       | -              | -              | -                | -                | -             | -               | -               | -               | -               | -                | -             | N            | -             |
-| STA         | Store Accumulator           | -              | I              | I                | -                | I             | N               | N               | N               | N               | -                | -             | -            | -             |
+| STA         | Store Accumulator           | -              | I              | I                | -                | I             | I               | N               | N               | N               | -                | -             | -            | -             |
 | STX         | Store X Register            | -              | N              | -                | N                | N             | -               | -               | N               | N               | -                | -             | -            | -             |
 | STY         | Store Y Register            | -              | N              | N                | -                | N             | -               | -               | N               | N               | -                | -             | -            | -             |
 | TAX         | Transfer Accumulator to X   | -              | -              | -                | -                | -             | -               | -               | -               | -               | -                | -             | N            | -             |

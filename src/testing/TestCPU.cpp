@@ -181,7 +181,27 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     if (memory[0xfaff] != cpu.getAcc())
     {
-        std::cout << "STA ZPA ERROR\n";
+        std::cout << "STA ABS ERROR\n";
+        return 1;
+    }
+
+    cpu.reset(memory);
+    newAddr = 0;
+
+    // STA ZERO PAGE ABSOLUTE X
+    cpu.setAcc(0x33);
+    cpu.setRX(0x8a);
+    memory[0xfffC] = opcodes::STA_ZERO_PAGE_ABSOLUTE_X;
+    memory[0xfffD] = 0xff;
+    memory[0xfffE] = 0xfA;
+
+    newAddr = cpu.getRX() + 0xfaff;
+  
+    cpu.exec(cycles::STA_ZERO_PAGE_ABSOLUTE, memory);
+
+    if (memory[newAddr] != cpu.getAcc())
+    {
+        std::cout << "STA ABS X ERROR\n";
         return 1;
     }
 
