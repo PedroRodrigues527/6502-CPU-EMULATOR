@@ -197,7 +197,7 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     newAddr = cpu.getRX() + 0xfaff;
   
-    cpu.exec(cycles::STA_ZERO_PAGE_ABSOLUTE, memory);
+    cpu.exec(cycles::STA_ZERO_PAGE_ABSOLUTE_X, memory);
 
     if (memory[newAddr] != cpu.getAcc())
     {

@@ -10,6 +10,7 @@ namespace cycles
     extern const int STA_ZERO_PAGE;
     extern const int STA_ZERO_PAGE_X;
     extern const int STA_ZERO_PAGE_ABSOLUTE;
+    extern const int STA_ZERO_PAGE_ABSOLUTE_X;
     
 }
 
