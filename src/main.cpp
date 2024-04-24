@@ -19,11 +19,6 @@ int main(int argc, char *argv[])
     CPU cpu;
     cpu.reset(memory);
 
-/*     if (isCPUWithErrors(memory, cpu)) 
-    {
-        return EXIT_FAILURE;
-    } */
-
     if (argc >= 2 && std::string(argv[1]) == "--check_errors")
     {
         if (isCPUWithErrors(memory, cpu)) 
