@@ -206,6 +206,28 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     }
 
     cpu.reset(memory);
+    newAddr = 0;
+
+    // STA ZERO PAGE ABSOLUTE X
+    cpu.setAcc(0x33);
+    cpu.setRY(0x8a);
+    memory[0xfffC] = opcodes::STA_ZERO_PAGE_ABSOLUTE_Y;
+    memory[0xfffD] = 0xff;
+    memory[0xfffE] = 0xfA;
+
+    newAddr = cpu.getRY() + 0xfaff;
+  
+    cpu.exec(cycles::STA_ZERO_PAGE_ABSOLUTE_Y, memory);
+
+    if (memory[newAddr] != cpu.getAcc())
+    {
+        std::cout << "STA ABS Y ERROR\n";
+        return 1;
+    }
+
+    cpu.reset(memory);
+    newAddr = 0;
+    
     std::cout << "\nALL TESTS PASSED!\n";
     return 0;
 }

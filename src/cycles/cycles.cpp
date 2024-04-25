@@ -10,6 +10,7 @@ namespace cycles
     const int STA_ZERO_PAGE_X = 4;
     const int STA_ZERO_PAGE_ABSOLUTE = 4;
     const int STA_ZERO_PAGE_ABSOLUTE_X = 5;
+    const int STA_ZERO_PAGE_ABSOLUTE_Y = 5;
     const int STX_ZERO_PAGE = 4;
     const int STX_ZERO_PAGE_Y = 4;
     const int STX_ABSOLUTE = 4;

@@ -4,7 +4,7 @@
 /**
  * Get the value of the accumulator
  * @returns Byte - value of the accumulator
-*/
+ */
 Byte CPU::getAcc()
 {
     return Acc;
@@ -13,7 +13,7 @@ Byte CPU::getAcc()
 /**
  * Get the value of the X register
  * @returns Byte - value of the X register
-*/
+ */
 Byte CPU::getRX()
 {
     return RX;
@@ -22,7 +22,7 @@ Byte CPU::getRX()
 /**
  * Get the value of the Y register
  * @returns Byte - value of the Y register
-*/
+ */
 Byte CPU::getRY()
 {
     return RY;
@@ -31,7 +31,7 @@ Byte CPU::getRY()
 /**
  * Set the value of the accumulator
  * @param Byte value
-*/
+ */
 void CPU::setAcc(Byte value)
 {
     Acc = value;
@@ -40,7 +40,7 @@ void CPU::setAcc(Byte value)
 /**
  * Set the value of the X register
  * @param Byte value
-*/
+ */
 void CPU::setRX(Byte value)
 {
     RX = value;
@@ -49,7 +49,7 @@ void CPU::setRX(Byte value)
 /**
  * Set the value of the Y register
  * @param Byte value
-*/
+ */
 void CPU::setRY(Byte value)
 {
     RY = value;
@@ -57,7 +57,7 @@ void CPU::setRY(Byte value)
 
 /**
  * Increment the program counter
-*/
+ */
 void CPU::incrementProgramCounter()
 {
     ProgramCounter++;
@@ -67,7 +67,7 @@ void CPU::incrementProgramCounter()
  * Resets the memory and all of it's elements.
  * @param Memory &memory
  * @returns data from the memory
-*/
+ */
 void CPU::reset(Memory &memory)
 {
     ProgramCounter = 0xfffc; // [0x0200, 0xffff]
@@ -85,7 +85,7 @@ void CPU::reset(Memory &memory)
  * @param s32 &ClockCycles
  * @param Memory &memory
  * @returns data from the memory
-*/
+ */
 Byte CPU::fetchByte(s32 &ClockCycles, Memory &memory)
 {
     Byte Data = memory[ProgramCounter];
@@ -99,7 +99,7 @@ Byte CPU::fetchByte(s32 &ClockCycles, Memory &memory)
  * @param s32 &ClockCycles
  * @param Memory &memory
  * @returns data from the memory
-*/
+ */
 Word CPU::fetchWord(s32 &ClockCycles, Memory &memory)
 {
     Word Data = memory[ProgramCounter];
@@ -119,7 +119,7 @@ Word CPU::fetchWord(s32 &ClockCycles, Memory &memory)
  * @param Memory &memory
  * @param Byte address
  * @returns Byte - data from address given
-*/
+ */
 Byte CPU::readByte(s32 &ClockCycles, Memory &memory, Byte address)
 {
     Byte Data = memory[address];
@@ -133,7 +133,7 @@ Byte CPU::readByte(s32 &ClockCycles, Memory &memory, Byte address)
  * @param Word address2
  * @param s32 ClockCycles
  * @returns Word - sum of the addresses
-*/
+ */
 Word CPU::addAddresses(Word address1, Word address2, s32 &ClockCycles)
 {
     ClockCycles--;
@@ -144,7 +144,7 @@ Word CPU::addAddresses(Word address1, Word address2, s32 &ClockCycles)
 /**
  * Set's the bit set corresponding flag, according to the value, for LOAD operations.
  * @param Byte value
-*/
+ */
 void CPU::LOAD_flag_processing(Byte value)
 {
     if (value == 0)
@@ -162,7 +162,7 @@ void CPU::LOAD_flag_processing(Byte value)
  * @param s32 ClockCycles
  * @param Memory &memory
  * @returns Word - sum of the addresses
-*/
+ */
 void CPU::exec(s32 ClockCycles, Memory &memory)
 {
     while (ClockCycles > 0)
@@ -253,6 +253,13 @@ void CPU::exec(s32 ClockCycles, Memory &memory)
         {
             Word address_from_instruction = fetchWord(ClockCycles, memory);
             Word address_to_store_acc = addAddresses(address_from_instruction, getRX(), ClockCycles);
+            memory.writeByte(getAcc(), address_to_store_acc, ClockCycles);
+            break;
+        }
+        case opcodes::STA_ZERO_PAGE_ABSOLUTE_Y:
+        {
+            Word address_from_instruction = fetchWord(ClockCycles, memory);
+            Word address_to_store_acc = addAddresses(address_from_instruction, getRY(), ClockCycles);
             memory.writeByte(getAcc(), address_to_store_acc, ClockCycles);
             break;
         }
