@@ -144,10 +144,10 @@ Byte CPU::readByte(s32 &ClockCycles, Memory &memory, Byte address)
  * @returns Word - sum of the addresses
  */
 Word CPU::addAddresses(Word address1, Word address2, s32 &ClockCycles)
-{
-    Word result = address1 + address2;
-    decrementClockCycles(ClockCycles);
-    return result;
+{ 
+  Word result = address1 + address2;
+  decrementClockCycles(ClockCycles);
+  return result;
 }
 
 /**
@@ -176,7 +176,7 @@ void CPU::exec(s32 ClockCycles, Memory &memory)
 {
     while (ClockCycles > 0)
     {
-        Byte instruction = fetchByte(ClockCycles, memory);
+        Word instruction = fetchByte(ClockCycles, memory);
         switch (instruction)
         {
         case opcodes::LDA:
