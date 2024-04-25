@@ -48,7 +48,7 @@ memory[0x4243] = 0x84;
 
 - CPU description: https://web.archive.org/web/20190130171422/http://www.obelisk.me.uk/6502/
 
-Instructions completed: 14/145
+Instructions completed: 16/145
 
 I: Implemented \
 N: Not implemented \
@@ -104,8 +104,8 @@ N: Not implemented \
 | SED         | SED - Set Decimal Flag      | -              | -              | -                | -                | -             | -               | -               | -               | -               | -                | -             | N            | -             |
 | SEI         | Set Interrupt Disable       | -              | -              | -                | -                | -             | -               | -               | -               | -               | -                | -             | N            | -             |
 | STA         | Store Accumulator           | -              | I              | I                | -                | I             | I               | I               | N               | N               | -                | -             | -            | -             |
-| STX         | Store X Register            | -              | N              | -                | N                | N             | -               | -               | -               | -               | -                | -             | -            | -             |
-| STY         | Store Y Register            | -              | N              | N                | -                | N             | -               | -               | -               | -               | -                | -             | -            | -             |
+| STX         | Store X Register            | -              | I              | -                | N                | N             | -               | -               | -               | -               | -                | -             | -            | -             |
+| STY         | Store Y Register            | -              | I              | N                | -                | N             | -               | -               | -               | -               | -                | -             | -            | -             |
 | TAX         | Transfer Accumulator to X   | -              | -              | -                | -                | -             | -               | -               | -               | -               | -                | -             | N            | -             |
 | TAY         | Transfer Accumulator to Y   | -              | -              | -                | -                | -             | -               | -               | -               | -               | -                | -             | N            | -             |
 | TSX         | Transfer Stack Pointer to X | -              | -              | -                | -                | -             | -               | -               | -               | -               | -                | -             | N            | -             |

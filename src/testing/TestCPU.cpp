@@ -227,6 +227,34 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     cpu.reset(memory);
     newAddr = 0;
+
+    // STX ZERO PAGE
+    cpu.setRX(0x23);
+    memory[0xfffC] = opcodes::STX_ZERO_PAGE;
+    memory[0xfffD] = 0xfb;
+
+    cpu.exec(cycles::STX_ZERO_PAGE, memory);
+
+    if (memory[0xfb] != cpu.getRX())
+    {
+        std::cout << "STX ERROR";
+        return 1;
+    }
+
+    cpu.reset(memory);
+
+    // STY ZERO PAGE
+    cpu.setRY(0x23);
+    memory[0xfffC] = opcodes::STY_ZERO_PAGE;
+    memory[0xfffD] = 0xfb;
+
+    cpu.exec(cycles::STY_ZERO_PAGE, memory);
+
+    if (memory[0xfb] != cpu.getRY())
+    {
+        std::cout << "STY ERROR";
+        return 1;
+    }
     
     std::cout << "\nALL TESTS PASSED!\n";
     return 0;

@@ -232,7 +232,7 @@ void CPU::exec(s32 ClockCycles, Memory &memory)
         }
         case opcodes::STA_ZERO_PAGE:
         {
-            Word addr = fetchByte(ClockCycles, memory);
+            Byte addr = fetchByte(ClockCycles, memory);
             memory.writeByte(getAcc(), addr, ClockCycles);
             break;
         }
@@ -261,6 +261,18 @@ void CPU::exec(s32 ClockCycles, Memory &memory)
             Word address_from_instruction = fetchWord(ClockCycles, memory);
             Word address_to_store_acc = addAddresses(address_from_instruction, getRY(), ClockCycles);
             memory.writeByte(getAcc(), address_to_store_acc, ClockCycles);
+            break;
+        }
+        case opcodes::STX_ZERO_PAGE:
+        {
+            Byte addr = fetchByte(ClockCycles, memory);
+            memory.writeByte(getRX(), addr, ClockCycles);
+            break;
+        }
+        case opcodes::STY_ZERO_PAGE:
+        {
+            Byte addr = fetchByte(ClockCycles, memory);
+            memory.writeByte(getRY(), addr, ClockCycles);
             break;
         }
         default:

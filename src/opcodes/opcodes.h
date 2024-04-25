@@ -30,7 +30,11 @@ namespace opcodes
 
     constexpr Byte STX_ZERO_PAGE = 0x86;
     constexpr Byte STX_ZERO_PAGE_Y = 0x96;
-    constexpr u24 STX_ABSOLUTE = 0x8E;
+    constexpr Byte STX_ABSOLUTE = 0x8E;
+
+    constexpr Byte STY_ZERO_PAGE = 0x84;
+    constexpr Byte STY_ZERO_PAGE_X = 0x94;
+    constexpr Byte STY_ABSOLUTE = 0x8C;
 
 }
 
