@@ -64,6 +64,15 @@ void CPU::incrementProgramCounter()
 }
 
 /**
+ * Decrement the program counter
+ * @param s32 &ClockCycles
+ */
+void CPU::decrementClockCycles(s32 &ClockCycles)
+{
+    ClockCycles--;
+}
+
+/**
  * Resets the memory and all of it's elements.
  * @param Memory &memory
  * @returns data from the memory
@@ -90,7 +99,7 @@ Byte CPU::fetchByte(s32 &ClockCycles, Memory &memory)
 {
     Byte Data = memory[ProgramCounter];
     incrementProgramCounter();
-    ClockCycles--;
+    decrementClockCycles(ClockCycles);
     return Data;
 }
 
@@ -104,11 +113,11 @@ Word CPU::fetchWord(s32 &ClockCycles, Memory &memory)
 {
     Word Data = memory[ProgramCounter];
     incrementProgramCounter();
-    ClockCycles--;
+    decrementClockCycles(ClockCycles);
 
     Data |= (memory[ProgramCounter] << 8);
     incrementProgramCounter();
-    ClockCycles--;
+    decrementClockCycles(ClockCycles);
 
     return Data;
 }
@@ -123,7 +132,7 @@ Word CPU::fetchWord(s32 &ClockCycles, Memory &memory)
 Byte CPU::readByte(s32 &ClockCycles, Memory &memory, Byte address)
 {
     Byte Data = memory[address];
-    ClockCycles--;
+    decrementClockCycles(ClockCycles);
     return Data;
 }
 
@@ -136,8 +145,8 @@ Byte CPU::readByte(s32 &ClockCycles, Memory &memory, Byte address)
  */
 Word CPU::addAddresses(Word address1, Word address2, s32 &ClockCycles)
 {
-    ClockCycles--;
     Word result = address1 + address2;
+    decrementClockCycles(ClockCycles);
     return result;
 }
 
@@ -188,7 +197,7 @@ void CPU::exec(s32 ClockCycles, Memory &memory)
         {
             Byte address = fetchByte(ClockCycles, memory);
             address += getRX();
-            ClockCycles--;
+            decrementClockCycles(ClockCycles);
             // TODO: verify when address overflows
             setAcc(readByte(ClockCycles, memory, address));
             LOAD_flag_processing(Acc);
@@ -227,7 +236,7 @@ void CPU::exec(s32 ClockCycles, Memory &memory)
             Word sub_routine_address = fetchWord(ClockCycles, memory);
             memory.writeWord(ProgramCounter - 1, StackPointer++, ClockCycles);
             ProgramCounter = sub_routine_address;
-            ClockCycles--;
+            decrementClockCycles(ClockCycles); // TODO: verify
             break;
         }
         case opcodes::STA_ZERO_PAGE:

@@ -37,6 +37,7 @@ struct CPU
     void setAcc(Byte value);
     void setRX(Byte value);
     void setRY(Byte value);
+    void decrementClockCycles(s32 &ClockCycles);
     void LOAD_flag_processing(Byte value);
     void exec(s32 ClockCycles, Memory &memory);
 };
