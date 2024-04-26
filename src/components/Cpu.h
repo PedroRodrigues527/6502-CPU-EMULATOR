@@ -42,6 +42,7 @@ struct CPU
     void exec(s32 ClockCycles, Memory &memory);
     void setProgramCounter(Word value);
     void setStackPointer(Word value);
+    void setProcessorFlags(int flag, bool value);
 };
 
 #endif

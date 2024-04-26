@@ -90,6 +90,11 @@ void CPU::setStackPointer(Word value)
     StackPointer = value;
 }
 
+void CPU::setProcessorFlags(int flag, bool value = 1)
+{
+    ProcessorStatus.set(flag, value);
+}
+
 /**
  * Resets the memory and all of it's elements.
  * @param Memory &memory
@@ -129,13 +134,9 @@ Byte CPU::fetchByte(s32 &ClockCycles, Memory &memory)
  */
 Word CPU::fetchWord(s32 &ClockCycles, Memory &memory)
 {
-    Word Data = memory[ProgramCounter];
-    incrementProgramCounter();
-    decrementClockCycles(ClockCycles);
+    Word Data = fetchByte(ClockCycles, memory);
 
-    Data |= (memory[ProgramCounter] << 8);
-    incrementProgramCounter();
-    decrementClockCycles(ClockCycles);
+    Data |= (fetchByte(ClockCycles, memory) << 8);
 
     return Data;
 }
@@ -176,11 +177,11 @@ void CPU::LOAD_flag_processing(Byte value)
 {
     if (value == 0)
     {
-        ProcessorStatus.set(ZERO_FLAG, 1);
+        setProcessorFlags(ZERO_FLAG);
     }
     if (value & (1 << 7)) // if last bit is set
     {
-        ProcessorStatus.set(NEGATIVE_FLAG, 1);
+        setProcessorFlags(NEGATIVE_FLAG);
     }
 }
 
