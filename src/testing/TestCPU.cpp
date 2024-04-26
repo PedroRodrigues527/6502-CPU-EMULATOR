@@ -27,6 +27,8 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
         return 1;
     }
 
+    // TODO: test processor flags
+
     cpu.reset(memory);
 
     // LDA ZERO PAGE
@@ -41,6 +43,8 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
         std::cout << "LDA ZERO PAGE ERROR";
         return 1;
     }
+
+    // TODO: test processor flags
 
     cpu.reset(memory);
 
@@ -59,6 +63,8 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
         return 1;
     }
 
+    // TODO: test processor flags
+
     cpu.reset(memory);
 
     // LDX
@@ -72,6 +78,8 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
         std::cout << "LDX ERROR";
         return 1;
     }
+
+    // TODO: test processor flags
 
     cpu.reset(memory);
 
@@ -88,6 +96,8 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
         return 1;
     }
 
+    // TODO: test processor flags
+
     cpu.reset(memory);
 
     // LDY
@@ -101,6 +111,8 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
         std::cout << "LDY ERROR";
         return 1;
     }
+
+    // TODO: test processor flags
 
     cpu.reset(memory);
 
@@ -117,6 +129,8 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
         std::cout << "LDY ZERO PAGE ERROR";
         return 1;
     }
+
+    // TODO: test processor flags
 
     cpu.reset(memory);
 
