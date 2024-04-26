@@ -73,14 +73,32 @@ void CPU::decrementClockCycles(s32 &ClockCycles)
 }
 
 /**
+ * Set the program counter
+ * @param Word value
+ */
+void CPU::setProgramCounter(Word value)
+{
+    ProgramCounter = value;
+}
+
+/**
+ * Set the stack pointer
+ * @param Word value
+ */
+void CPU::setStackPointer(Word value)
+{
+    StackPointer = value;
+}
+
+/**
  * Resets the memory and all of it's elements.
  * @param Memory &memory
  * @returns data from the memory
  */
 void CPU::reset(Memory &memory)
 {
-    ProgramCounter = 0xfffc; // [0x0200, 0xffff]
-    StackPointer = 0x0100;   // [0x0100, 0x01ff]
+    setProgramCounter(0xfffc); // [0x0200, 0xffff]
+    setStackPointer(0x0100); // [0x0100, 0x01ff]
     setAcc(0);
     setRX(0);
     setRY(0);
@@ -235,7 +253,7 @@ void CPU::exec(s32 ClockCycles, Memory &memory)
         {
             Word sub_routine_address = fetchWord(ClockCycles, memory);
             memory.writeWord(ProgramCounter - 1, StackPointer++, ClockCycles);
-            ProgramCounter = sub_routine_address;
+            setProgramCounter(sub_routine_address);
             decrementClockCycles(ClockCycles); // TODO: verify
             break;
         }

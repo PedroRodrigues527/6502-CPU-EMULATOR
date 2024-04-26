@@ -40,6 +40,8 @@ struct CPU
     void decrementClockCycles(s32 &ClockCycles);
     void LOAD_flag_processing(Byte value);
     void exec(s32 ClockCycles, Memory &memory);
+    void setProgramCounter(Word value);
+    void setStackPointer(Word value);
 };
 
 #endif
