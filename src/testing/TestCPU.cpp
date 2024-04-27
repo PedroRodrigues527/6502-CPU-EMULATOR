@@ -15,7 +15,38 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 {
     std::cout << "TESTING CPU...\n";
 
-    // LDA
+    if(
+        LDA_test(memory, cpu)                       ||
+        LDA_ZERO_PAGE_test(memory, cpu)             ||
+        LDA_ZERO_PAGE_X_test(memory, cpu)           ||
+        LDX_test(memory, cpu)                       ||
+        LDX_ZERO_PAGE_test(memory, cpu)             ||
+        LDY_test(memory, cpu)                       ||
+        LDY_ZERO_PAGE_test(memory, cpu)             ||
+        JSR_test(memory, cpu)                       ||
+        STA_ZERO_PAGE_test(memory, cpu)             ||
+        STA_ZERO_PAGE_X_test(memory, cpu)           ||
+        STA_ZERO_PAGE_ABSOLUTE_test(memory, cpu)    ||
+        STA_ZERO_PAGE_ABSOLUTE_X_test(memory, cpu)  ||
+        STA_ZERO_PAGE_ABSOLUTE_Y_test(memory, cpu)  ||
+        STX_ZERO_PAGE_test(memory, cpu)             ||
+        STY_ZERO_PAGE_test(memory, cpu)
+    )
+    {
+        return 1;
+    }
+    std::cout << "\nALL TESTS PASSED!\n";
+    return 0;
+}
+
+/**
+ * Run's tests for LDA operation
+ * @param Memory &memory
+ * @param CPU &cpu
+ * @returns bool true if CPU has problems
+*/
+bool LDA_test(Memory &memory, CPU &cpu)
+{
     memory[0x0200] = opcodes::LDA;
     memory[0x0201] = 0x42;
 
@@ -28,10 +59,18 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     }
 
     // TODO: test processor flags
-
     cpu.reset(memory);
+    return 0;
+}
 
-    // LDA ZERO PAGE
+/**
+ * Run's tests for LDA ZERO PAGE operation
+ * @param Memory &memory
+ * @param CPU &cpu
+ * @returns bool true if CPU has problems
+*/
+bool LDA_ZERO_PAGE_test(Memory &memory, CPU &cpu)
+{
     memory[0xff] = 0x42;
     memory[0x0200] = opcodes::LDA_ZERO_PAGE;
     memory[0x0201] = 0xff;
@@ -45,10 +84,18 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     }
 
     // TODO: test processor flags
-
     cpu.reset(memory);
+    return 0;
+}
 
-    // LDA ZERO PAGE X
+/**
+ * Run's tests for LDA ZERO PAGE X operation
+ * @param Memory &memory
+ * @param CPU &cpu
+ * @returns bool true if CPU has problems
+*/
+bool LDA_ZERO_PAGE_X_test(Memory &memory, CPU &cpu)
+{
     cpu.setRX(0x11);
     memory[0x0200] = opcodes::LDA_ZERO_PAGE_X;
     memory[0x0201] = 0x20;
@@ -59,15 +106,23 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     if (cpu.getAcc() != 0x22)
     {
-        std::cout << "\nLDA ZERO PAGE X ERROR\n";
+        std::cout << "LDA ZERO PAGE X ERROR\n";
         return 1;
     }
 
     // TODO: test processor flags
-
     cpu.reset(memory);
+    return 0;
+}
 
-    // LDX
+/**
+ * Run's tests for LDX operation
+ * @param Memory &memory
+ * @param CPU &cpu
+ * @returns bool true if CPU has problems
+*/
+bool LDX_test(Memory &memory, CPU &cpu)
+{
     memory[0x0200] = opcodes::LDX;
     memory[0x0201] = 0x42;
 
@@ -80,10 +135,19 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     }
 
     // TODO: test processor flags
-
     cpu.reset(memory);
+    return 0;
+}
 
-    // LDX ZERO PAGE
+
+/**
+ * Run's tests for LDX ZERO PAGE operation
+ * @param Memory &memory
+ * @param CPU &cpu
+ * @returns bool true if CPU has problems
+*/
+bool LDX_ZERO_PAGE_test(Memory &memory, CPU &cpu)
+{
     memory[0x0200] = opcodes::LDX_ZERO_PAGE;
     memory[0x0201] = 0xff;
     memory[0xff] = 0x42;
@@ -97,10 +161,18 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     }
 
     // TODO: test processor flags
-
     cpu.reset(memory);
+    return 0;
+}
 
-    // LDY
+/**
+ * Run's tests for LDY operation
+ * @param Memory &memory
+ * @param CPU &cpu
+ * @returns bool true if CPU has problems
+*/
+bool LDY_test(Memory &memory, CPU &cpu)
+{
     memory[0x0200] = opcodes::LDY;
     memory[0x0201] = 0x42;
 
@@ -111,13 +183,20 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
         std::cout << "LDY ERROR";
         return 1;
     }
-
+    
     // TODO: test processor flags
-
     cpu.reset(memory);
+    return 0;
+}
 
-    // LDY ZERO PAGE
-
+/**
+ * Run's tests for LDY ZERO PAGE operation
+ * @param Memory &memory
+ * @param CPU &cpu
+ * @returns bool true if CPU has problems
+*/
+bool LDY_ZERO_PAGE_test(Memory &memory, CPU &cpu)
+{
     memory[0x0200] = opcodes::LDY_ZERO_PAGE;
     memory[0x0201] = 0xff;
     memory[0xff] = 0x42;
@@ -133,8 +212,17 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     // TODO: test processor flags
 
     cpu.reset(memory);
+    return 0;
+}
 
-    // JSR
+/**
+ * Run's tests for JSR operation
+ * @param Memory &memory
+ * @param CPU &cpu
+ * @returns bool true if CPU has problems
+*/
+bool JSR_test(Memory &memory, CPU &cpu)
+{
     memory[0x0200] = opcodes::JSR;
     memory[0x0201] = 0x41;
     memory[0x0202] = 0x42;
@@ -148,10 +236,19 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
         std::cout << "JSR ERROR";
         return 1;
     }
- 
-    cpu.reset(memory);
 
-    // STA ZERO PAGE
+    cpu.reset(memory);
+    return 0;
+}
+
+/**
+ * Run's tests for STA ZERO PAGE operation
+ * @param Memory &memory
+ * @param CPU &cpu
+ * @returns bool true if CPU has problems
+*/
+bool STA_ZERO_PAGE_test(Memory &memory, CPU &cpu)
+{
     cpu.setAcc(0x23);
     memory[0x0200] = opcodes::STA_ZERO_PAGE;
     memory[0x0201] = 0xfb;
@@ -165,8 +262,17 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     }
 
     cpu.reset(memory);
+    return 0;
+}
 
-    // STA ZERO PAGE X
+/**
+ * Run's tests for STA ZERO PAGE X operation
+ * @param Memory &memory
+ * @param CPU &cpu
+ * @returns bool true if CPU has problems
+*/
+bool STA_ZERO_PAGE_X_test(Memory &memory, CPU &cpu)
+{
     cpu.setAcc(0x31);
     cpu.setRX(0x8a);
     memory[0x0200] = opcodes::STA_ZERO_PAGE_X;
@@ -184,8 +290,18 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     }
 
     cpu.reset(memory);
+    newAddr = 0;
+    return 0;
+}
 
-    // STA ZERO PAGE ABSOLUTE
+/**
+ * Run's tests for STA ZERO PAGE ABSOLUTE operation
+ * @param Memory &memory
+ * @param CPU &cpu
+ * @returns bool true if CPU has problems
+*/
+bool STA_ZERO_PAGE_ABSOLUTE_test(Memory &memory, CPU &cpu)
+{
     cpu.setAcc(0x33);
     memory[0x0200] = opcodes::STA_ZERO_PAGE_ABSOLUTE;
     memory[0x0201] = 0xff;
@@ -200,16 +316,24 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     }
 
     cpu.reset(memory);
-    newAddr = 0;
+    return 0;
+}
 
-    // STA ZERO PAGE ABSOLUTE X
+/**
+ * Run's tests for STA ZERO PAGE ABSOLUTE X operation
+ * @param Memory &memory
+ * @param CPU &cpu
+ * @returns bool true if CPU has problems
+*/
+bool STA_ZERO_PAGE_ABSOLUTE_X_test(Memory &memory, CPU &cpu)
+{
     cpu.setAcc(0x33);
     cpu.setRX(0x8a);
     memory[0x0200] = opcodes::STA_ZERO_PAGE_ABSOLUTE_X;
     memory[0x0201] = 0xff;
     memory[0x0202] = 0xfA;
 
-    newAddr = cpu.getRX() + 0xfaff;
+    Word newAddr = cpu.getRX() + 0xfaff;
   
     cpu.exec(cycles::STA_ZERO_PAGE_ABSOLUTE_X, memory);
 
@@ -221,15 +345,24 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     cpu.reset(memory);
     newAddr = 0;
+    return 0;
+}
 
-    // STA ZERO PAGE ABSOLUTE X
+/**
+ * Run's tests for STA ZERO PAGE ABSOLUTE Y operation
+ * @param Memory &memory
+ * @param CPU &cpu
+ * @returns bool true if CPU has problems
+*/
+bool STA_ZERO_PAGE_ABSOLUTE_Y_test(Memory &memory, CPU &cpu)
+{
     cpu.setAcc(0x33);
     cpu.setRY(0x8a);
     memory[0x0200] = opcodes::STA_ZERO_PAGE_ABSOLUTE_Y;
     memory[0x0201] = 0xff;
     memory[0x0202] = 0xfA;
 
-    newAddr = cpu.getRY() + 0xfaff;
+    Word newAddr = cpu.getRY() + 0xfaff;
   
     cpu.exec(cycles::STA_ZERO_PAGE_ABSOLUTE_Y, memory);
 
@@ -242,7 +375,17 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     cpu.reset(memory);
     newAddr = 0;
 
-    // STX ZERO PAGE
+    return 0;
+}
+
+/**
+ * Run's tests for STX ZERO PAGE operation
+ * @param Memory &memory
+ * @param CPU &cpu
+ * @returns bool true if CPU has problems
+*/
+bool STX_ZERO_PAGE_test(Memory &memory, CPU &cpu)
+{
     cpu.setRX(0x23);
     memory[0x0200] = opcodes::STX_ZERO_PAGE;
     memory[0x0201] = 0xfb;
@@ -256,8 +399,17 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     }
 
     cpu.reset(memory);
+    return 0;
+}
 
-    // STY ZERO PAGE
+/**
+ * Run's tests for STY ZERO PAGE operation
+ * @param Memory &memory
+ * @param CPU &cpu
+ * @returns bool true if CPU has problems
+*/
+bool STY_ZERO_PAGE_test(Memory &memory, CPU &cpu)
+{
     cpu.setRY(0x23);
     memory[0x0200] = opcodes::STY_ZERO_PAGE;
     memory[0x0201] = 0xfb;
@@ -270,6 +422,5 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
         return 1;
     }
     
-    std::cout << "\nALL TESTS PASSED!\n";
     return 0;
 }
