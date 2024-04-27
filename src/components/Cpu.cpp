@@ -255,7 +255,7 @@ void CPU::exec(s32 ClockCycles, Memory &memory)
             Word sub_routine_address = fetchWord(ClockCycles, memory);
             memory.writeWord(ProgramCounter - 1, StackPointer++, ClockCycles);
             setProgramCounter(sub_routine_address);
-            decrementClockCycles(ClockCycles); // TODO: verify
+            decrementClockCycles(ClockCycles);
             break;
         }
         case opcodes::STA_ZERO_PAGE:

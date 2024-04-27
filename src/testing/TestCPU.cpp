@@ -229,7 +229,7 @@ bool JSR_test(Memory &memory, CPU &cpu)
     memory[0x4241] = opcodes::LDA;
     memory[0x4242] = 0x30;
 
-    cpu.exec(cycles::JSR_CYCLES, memory);
+    cpu.exec(cycles::JSR_CYCLES + cycles::LOAD_CYCLES, memory);
 
     if (cpu.getAcc() != 0x30)
     {
