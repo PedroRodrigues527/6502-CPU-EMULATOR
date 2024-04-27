@@ -102,8 +102,8 @@ void CPU::setProcessorFlags(int flag, bool value = 1)
  */
 void CPU::reset(Memory &memory)
 {
-    setProgramCounter(0xfffc); // [0x0200, 0xffff]
-    setStackPointer(0x0100); // [0x0100, 0x01ff]
+    setProgramCounter(0x0200); // [0x0200, 0xffff]
+    setStackPointer(0x0100);   // [0x0100, 0x01ff]
     setAcc(0);
     setRX(0);
     setRY(0);
