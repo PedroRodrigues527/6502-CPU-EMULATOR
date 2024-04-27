@@ -16,8 +16,8 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     std::cout << "TESTING CPU...\n";
 
     // LDA
-    memory[0xfffC] = opcodes::LDA;
-    memory[0xfffD] = 0x42;
+    memory[0x0200] = opcodes::LDA;
+    memory[0x0201] = 0x42;
 
     cpu.exec(cycles::LOAD_CYCLES, memory);
 
@@ -32,9 +32,9 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     cpu.reset(memory);
 
     // LDA ZERO PAGE
-    memory[0xfffC] = opcodes::LDA_ZERO_PAGE;
-    memory[0xfffD] = 0xff;
     memory[0xff] = 0x42;
+    memory[0x0200] = opcodes::LDA_ZERO_PAGE;
+    memory[0x0201] = 0xff;
 
     cpu.exec(cycles::LOAD_ZERO_CYCLES, memory);
 
@@ -49,9 +49,9 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     cpu.reset(memory);
 
     // LDA ZERO PAGE X
-    memory[0xfffC] = opcodes::LDA_ZERO_PAGE_X;
     cpu.setRX(0x11);
-    memory[0xfffD] = 0x20;
+    memory[0x0200] = opcodes::LDA_ZERO_PAGE_X;
+    memory[0x0201] = 0x20;
 
     memory[0x31] = 0x22;
 
@@ -68,8 +68,8 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     cpu.reset(memory);
 
     // LDX
-    memory[0xfffC] = opcodes::LDX;
-    memory[0xfffD] = 0x42;
+    memory[0x0200] = opcodes::LDX;
+    memory[0x0201] = 0x42;
 
     cpu.exec(cycles::LOAD_CYCLES, memory);
 
@@ -84,8 +84,8 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     cpu.reset(memory);
 
     // LDX ZERO PAGE
-    memory[0xfffC] = opcodes::LDX_ZERO_PAGE;
-    memory[0xfffD] = 0xff;
+    memory[0x0200] = opcodes::LDX_ZERO_PAGE;
+    memory[0x0201] = 0xff;
     memory[0xff] = 0x42;
 
     cpu.exec(cycles::LOAD_ZERO_CYCLES, memory);
@@ -101,8 +101,8 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     cpu.reset(memory);
 
     // LDY
-    memory[0xfffC] = opcodes::LDY;
-    memory[0xfffD] = 0x42;
+    memory[0x0200] = opcodes::LDY;
+    memory[0x0201] = 0x42;
 
     cpu.exec(cycles::LOAD_CYCLES, memory);
 
@@ -118,8 +118,8 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     // LDY ZERO PAGE
 
-    memory[0xfffC] = opcodes::LDY_ZERO_PAGE;
-    memory[0xfffD] = 0xff;
+    memory[0x0200] = opcodes::LDY_ZERO_PAGE;
+    memory[0x0201] = 0xff;
     memory[0xff] = 0x42;
 
     cpu.exec(cycles::LOAD_CYCLES, memory);
@@ -135,9 +135,9 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     cpu.reset(memory);
 
     // JSR
-    memory[0xfffC] = opcodes::JSR;
-    memory[0xfffD] = 0x41;
-    memory[0xfffe] = 0x42;
+    memory[0x0200] = opcodes::JSR;
+    memory[0x0201] = 0x41;
+    memory[0x0202] = 0x42;
     memory[0x4241] = opcodes::LDA;
     memory[0x4242] = 0x30;
 
@@ -153,8 +153,8 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     // STA ZERO PAGE
     cpu.setAcc(0x23);
-    memory[0xfffC] = opcodes::STA_ZERO_PAGE;
-    memory[0xfffD] = 0xfb;
+    memory[0x0200] = opcodes::STA_ZERO_PAGE;
+    memory[0x0201] = 0xfb;
 
     cpu.exec(cycles::STA_ZERO_PAGE, memory);
 
@@ -169,8 +169,8 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     // STA ZERO PAGE X
     cpu.setAcc(0x31);
     cpu.setRX(0x8a);
-    memory[0xfffC] = opcodes::STA_ZERO_PAGE_X;
-    memory[0xfffD] =  0xfa;
+    memory[0x0200] = opcodes::STA_ZERO_PAGE_X;
+    memory[0x0201] =  0xfa;
 
     Word newAddr = cpu.getRX() + 0xfa;
   
@@ -187,9 +187,9 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     // STA ZERO PAGE ABSOLUTE
     cpu.setAcc(0x33);
-    memory[0xfffC] = opcodes::STA_ZERO_PAGE_ABSOLUTE;
-    memory[0xfffD] = 0xff;
-    memory[0xfffE] = 0xfA;
+    memory[0x0200] = opcodes::STA_ZERO_PAGE_ABSOLUTE;
+    memory[0x0201] = 0xff;
+    memory[0x0202] = 0xfA;
   
     cpu.exec(cycles::STA_ZERO_PAGE_ABSOLUTE, memory);
 
@@ -205,9 +205,9 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     // STA ZERO PAGE ABSOLUTE X
     cpu.setAcc(0x33);
     cpu.setRX(0x8a);
-    memory[0xfffC] = opcodes::STA_ZERO_PAGE_ABSOLUTE_X;
-    memory[0xfffD] = 0xff;
-    memory[0xfffE] = 0xfA;
+    memory[0x0200] = opcodes::STA_ZERO_PAGE_ABSOLUTE_X;
+    memory[0x0201] = 0xff;
+    memory[0x0202] = 0xfA;
 
     newAddr = cpu.getRX() + 0xfaff;
   
@@ -225,9 +225,9 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
     // STA ZERO PAGE ABSOLUTE X
     cpu.setAcc(0x33);
     cpu.setRY(0x8a);
-    memory[0xfffC] = opcodes::STA_ZERO_PAGE_ABSOLUTE_Y;
-    memory[0xfffD] = 0xff;
-    memory[0xfffE] = 0xfA;
+    memory[0x0200] = opcodes::STA_ZERO_PAGE_ABSOLUTE_Y;
+    memory[0x0201] = 0xff;
+    memory[0x0202] = 0xfA;
 
     newAddr = cpu.getRY() + 0xfaff;
   
@@ -244,8 +244,8 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     // STX ZERO PAGE
     cpu.setRX(0x23);
-    memory[0xfffC] = opcodes::STX_ZERO_PAGE;
-    memory[0xfffD] = 0xfb;
+    memory[0x0200] = opcodes::STX_ZERO_PAGE;
+    memory[0x0201] = 0xfb;
 
     cpu.exec(cycles::STX_ZERO_PAGE, memory);
 
@@ -259,8 +259,8 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
 
     // STY ZERO PAGE
     cpu.setRY(0x23);
-    memory[0xfffC] = opcodes::STY_ZERO_PAGE;
-    memory[0xfffD] = 0xfb;
+    memory[0x0200] = opcodes::STY_ZERO_PAGE;
+    memory[0x0201] = 0xfb;
 
     cpu.exec(cycles::STY_ZERO_PAGE, memory);
 
