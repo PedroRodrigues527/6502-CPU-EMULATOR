@@ -4,6 +4,12 @@
 #include "../components/Memory.h"
 #include "../components/Cpu.h"
 
+#define RESET   "\033[0m"
+#define BLACK   "\033[30m"
+#define RED     "\033[31m" 
+#define GREEN   "\033[32m"
+#define YELLOW  "\033[33m"  
+
 #include <iostream>
 
 bool isCPUWithErrors(Memory &memory, CPU &cpu);
