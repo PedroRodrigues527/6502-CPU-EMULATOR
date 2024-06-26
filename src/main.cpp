@@ -1,6 +1,7 @@
 #include "components/Memory.h"
 #include "components/Cpu.h"
 #include "testing/TestCPU.h"
+#include "testing/MainTester.h"
 
 #include <string>
 
@@ -21,10 +22,9 @@ int main(int argc, char *argv[])
 
     if (argc >= 2 && std::string(argv[1]) == "--check_errors")
     {
-        if (isCPUWithErrors(memory, cpu)) 
-        {
-            return EXIT_FAILURE;
-        }
+        MainTester tester(memory, cpu);
+        tester.execute();
+        return 0;
     }
     else
     {
