@@ -45,6 +45,7 @@ void BaseInstructionTest::process_mode(TestResult result, std::string mode_ident
             break;
         case TestResult::NOT_IMPLEMENTED:
             output_not_implemented();
+            break;
         case TestResult::NOT_APPLICABLE:
             output_not_applicable();
             break;
