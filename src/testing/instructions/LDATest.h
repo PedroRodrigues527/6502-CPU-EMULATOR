@@ -8,7 +8,7 @@ public:
     using BaseInstructionTest::BaseInstructionTest;
     using BaseInstructionTest::run_test;
 
-    bool immediate_test();
+    TestResult immediate_test();
 
 protected:
     std::string get_identifier();
