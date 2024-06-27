@@ -1,3 +1,4 @@
+#include <math.h>
 #include "TestResultProcessor.h"
 
 int TestResultProcessor::mSuccess = 0;
@@ -55,5 +56,15 @@ void TestResultProcessor::outputResult()
     std::cout << "Not implemented: " << TestResultProcessor::mNotImplemented << std::endl;
     std::cout << "Not applicable: " << TestResultProcessor::mNotApplicable << std::endl;
 
+    int total = TestResultProcessor::mSuccess + TestResultProcessor::mFailure + TestResultProcessor::mNotImplemented;
+    float percent = ((total - TestResultProcessor::mNotImplemented) * 100) / total;
+    float percent2digits = roundf(percent * 100) / 100;
 
+    std::string finalMessage = "Congrats!!";
+    if (TestResultProcessor::mFailure > 0) {
+        finalMessage = "But there are some failures.";
+    } else if (percent2digits < 100) {
+        finalMessage = "Keep up!";
+    }
+    std::cout << "The cpu is " << percent2digits << "\% done. " << finalMessage << std::endl;
 }
