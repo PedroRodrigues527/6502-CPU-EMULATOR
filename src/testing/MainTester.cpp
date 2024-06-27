@@ -1,4 +1,5 @@
 #include "MainTester.h"
+#include "TestResultProcessor.h"
 
 MainTester::MainTester(Memory &memory, CPU &CPU) {
     mMemory = memory;
@@ -17,4 +18,6 @@ void MainTester::execute()
     for (auto& test: mTests) {
         test->run_test();
     }
+
+    mTestProcessor.outputResult();
 }

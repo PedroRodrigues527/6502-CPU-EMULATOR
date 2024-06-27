@@ -1,7 +1,8 @@
 #include <string>
 #include "BaseInstructionTest.h"
 
-BaseInstructionTest::BaseInstructionTest(Memory &memory, CPU &CPU, TestResultProcessor &testProcessor) {
+BaseInstructionTest::BaseInstructionTest(Memory &memory, CPU &CPU, TestResultProcessor testProcessor)
+{
     mMemory = memory;
     mCPU = CPU;
     mTestProcessor = testProcessor;

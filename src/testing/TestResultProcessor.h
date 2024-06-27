@@ -22,11 +22,14 @@ public:
     TestResultProcessor() {};
 
     void process(TestResult result, std::string identifier);
+
+    void outputResult();
+
+    static int mSuccess;
+    static int mFailure;
+    static int mNotImplemented;
+    static int mNotApplicable;
 private:
-    int mSuccess;
-    int mFailure;
-    int mNotImplemented;
-    int mNotApplicable;
 
     void output_error();
     void output_success();
