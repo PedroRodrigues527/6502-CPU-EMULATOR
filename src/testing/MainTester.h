@@ -3,6 +3,7 @@
 #include "instructions/BaseInstructionTest.h"
 #include "../components/Memory.h"
 #include "../components/Cpu.h"
+#include "TestResultProcessor.h"
 
 struct MainTester
 {
@@ -14,5 +15,6 @@ private:
     void init_instructions_tests();
     Memory mMemory;
     CPU mCPU;
+    TestResultProcessor mTestProcessor;
     std::vector<BaseInstructionTest*> mTests;
 };

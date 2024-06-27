@@ -3,7 +3,7 @@
 #include "../../components/Memory.h"
 #include "../../components/Cpu.h"
 #include <iostream>
-#include "TestResult.h"
+#include "../TestResultProcessor.h"
 
 #define RESET  "\033[0m"
 #define BLACK  "\033[30m"
