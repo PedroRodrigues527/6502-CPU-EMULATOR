@@ -8,6 +8,7 @@ MainTester::MainTester(Memory &memory, CPU &CPU) {
 
 void MainTester::init_instructions_tests()
 {
+    mTests.push_back(new ADCTest(mMemory, mCPU, mTestProcessor));
     mTests.push_back(new LDATest(mMemory, mCPU, mTestProcessor));
 }
 

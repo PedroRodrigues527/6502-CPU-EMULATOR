@@ -10,6 +10,7 @@ BaseInstructionTest::BaseInstructionTest(Memory &memory, CPU &CPU, TestResultPro
 
 int BaseInstructionTest::run_test()
 {
+    std::cout << "---------------     " << get_identifier() << "     ---------------" << std::endl;
     process_mode(immediate_test(), "immediate mode");
     process_mode(zero_page_test(), "zero page mode");
     process_mode(zero_page_x_test(), "zero page x mode");
@@ -23,6 +24,7 @@ int BaseInstructionTest::run_test()
     process_mode(acumulator_test(), "acumulator mode");
     process_mode(relative_test(), "relative mode");
     process_mode(implied_test(), "implied mode");
+    std::cout << std::endl;
 
     return 0;
 }

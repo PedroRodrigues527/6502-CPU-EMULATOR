@@ -1,4 +1,5 @@
 #include <vector>
+#include "instructions/ADCTest.h"
 #include "instructions/LDATest.h"
 #include "instructions/BaseInstructionTest.h"
 #include "../components/Memory.h"
