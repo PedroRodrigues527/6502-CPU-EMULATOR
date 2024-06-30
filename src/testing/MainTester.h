@@ -1,7 +1,8 @@
 #include <vector>
 #include "instructions/ADCTest.h"
+#include "instructions/ANDTest.h"
 #include "instructions/LDATest.h"
-#include "instructions/BaseInstructionTest.h"
+#include "BaseInstructionTest.h"
 #include "../components/Memory.h"
 #include "../components/Cpu.h"
 #include "TestResultProcessor.h"

@@ -3,7 +3,7 @@
 #include "../../opcodes/opcodes.h"
 #include "../../cycles/cycles.h"
 
-struct ADCTest : public BaseInstructionTest {
+struct ANDTest : public BaseInstructionTest {
 public:
     using BaseInstructionTest::BaseInstructionTest;
     using BaseInstructionTest::run_test;

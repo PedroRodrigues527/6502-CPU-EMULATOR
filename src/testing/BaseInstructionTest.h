@@ -1,7 +1,7 @@
 #pragma once
-#include "../../components/Memory.h"
-#include "../../components/Cpu.h"
-#include "../TestResultProcessor.h"
+#include "../components/Memory.h"
+#include "../components/Cpu.h"
+#include "TestResultProcessor.h"
 
 struct BaseInstructionTest
 {
