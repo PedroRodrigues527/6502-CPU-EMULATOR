@@ -1,9 +1,12 @@
 #ifndef OPCODES_H
 #define OPCODES_H
 
+#include <unordered_map>
+
 namespace opcodes
 {
     using Byte = unsigned char; // 1 byte (8 bits)
+    using Word = unsigned short; // 2 bytes (16 bits)
 
     // Load to accumulator
     constexpr Byte LDA = 0xA9; // immediate mode
@@ -35,6 +38,30 @@ namespace opcodes
     constexpr Byte STY_ZERO_PAGE = 0x84;
     constexpr Byte STY_ZERO_PAGE_X = 0x94;
     constexpr Byte STY_ABSOLUTE = 0x8C;
+
+    const std::unordered_map<Byte, int> opcode_map = {
+        {opcodes::LDA, 2},
+        {opcodes::LDA_ZERO_PAGE, 3},
+        {opcodes::LDA_ZERO_PAGE_X, 4},
+        {opcodes::LDX, 2},
+        {opcodes::LDX_ZERO_PAGE, 3},
+        {opcodes::LDY, 2},
+        {opcodes::LDY_ZERO_PAGE, 3},
+        {opcodes::JSR, 6},
+        {opcodes::STA_ZERO_PAGE, 3},
+        {opcodes::STA_ZERO_PAGE_X, 4},
+        {opcodes::STA_ZERO_PAGE_ABSOLUTE, 4},
+        {opcodes::STA_ZERO_PAGE_ABSOLUTE_X, 5},
+        {opcodes::STA_ZERO_PAGE_ABSOLUTE_Y, 5},
+        {opcodes::STA_ZERO_PAGE_INDIRECT_X, 6},
+        {opcodes::STA_ZERO_PAGE_INDIRECT_Y, 6},
+        {opcodes::STX_ZERO_PAGE, 3},
+        {opcodes::STX_ZERO_PAGE_Y, 4},
+        {opcodes::STX_ABSOLUTE, 4},
+        {opcodes::STY_ZERO_PAGE, 3},
+        {opcodes::STY_ZERO_PAGE_X, 4},
+        {opcodes::STY_ABSOLUTE, 4}
+    };
 
 }
 
