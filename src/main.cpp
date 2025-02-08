@@ -1,5 +1,6 @@
 #include "components/Memory.h"
 #include "components/Cpu.h"
+#include "assembler/Assembler.h"
 #include "testing/TestCPU.h"
 #include "testing/MainTester.h"
 #include <string>
@@ -19,12 +20,7 @@ int main(int argc, char *argv[])
     CPU cpu;
     cpu.reset(memory);
 
-    if (argc >= 2 && std::string(argv[1]) == "--check_errors") {
-        /* MainTester tester(memory, cpu); */
-        /* tester.execute(); */
-    } else {
-        loadTestProgram(memory);
-        cpu.exec(memory); 
-    }
+    Assembler::newCompileAssemblyProgram(cpu, memory);
+    cpu.exec(memory);
     return 0;
 };

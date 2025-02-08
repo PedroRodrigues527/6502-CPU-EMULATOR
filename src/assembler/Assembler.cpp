@@ -1,11 +1,8 @@
 #include "Assembler.h"
 #include <string>
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <bitset>
 #include <fstream>
-#include <string>
+#include <unordered_map>
 #include "../opcodes/opcodes.h"
 #include "../cycles/cycles.h"
 #include "../data_types/data_types.h"
@@ -13,42 +10,26 @@
 Byte getOpcode(std::string instruction, bool isAddress)
 {
     if (instruction == "LDA")
-    {
-        if (isAddress)
-            return opcodes::LDA_ZERO_PAGE;
-        return opcodes::LDA;
-    }
+        return isAddress ? opcodes::LDA_ZERO_PAGE : opcodes::LDA;
     if (instruction == "LDX")
-    {
-        if (isAddress)
-            return opcodes::LDX_ZERO_PAGE;
-        return opcodes::LDX;
-    }
-    return 0x00;
-}
-
-int getCycles(std::string instruction, bool isAddress)
-{
-    if (instruction == "LDA" || instruction == "LDX" )
-    {
-        if (isAddress)
-            return cycles::LOAD_ZERO_CYCLES;
-        return cycles::LOAD_CYCLES;
-    }
-
-    return 0;
+        return isAddress ? opcodes::LDX_ZERO_PAGE : opcodes::LDX;
+    if (instruction == "LDY")
+        return isAddress ? opcodes::LDY_ZERO_PAGE : opcodes::LDY;
+    if (instruction == "STA")
+        return isAddress ? opcodes::STA_ZERO_PAGE_ABSOLUTE : opcodes::STA_ZERO_PAGE;
+    if (instruction == "JSR")
+        return opcodes::JSR;
+    // todo: more
+    return 0x00; // NOP or unknown instruction
 }
 
 void compileAssemblyProgram(CPU &cpu, Memory &memory, std::string line) // assuming nothing is allocated from $0200 to $ffff
 {
-    int allocating_position = 0xfffC;
-
+    int allocating_position = 0x0200;
     int cycles = 0;
-
     Byte opcode;
 
     std::fstream assembly_file;
-
     assembly_file.open("assembly_code.txt", std::ios::in);
 
     if (assembly_file.is_open())

@@ -35,3 +35,5 @@
 sfml-app
 main
 6502_processor
+
+src/components/Cpu
