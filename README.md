@@ -113,6 +113,30 @@ N: Not implemented \
 | TXS         | Transfer X to Stack Pointer | -              | -              | -                | -                | -             | -               | -               | -               | -               | -                | -             | N            | -             |
 | TYA         | Transfer X to Stack Pointer | -              | -              | -                | -                | -             | -               | -               | -               | -               | -                | -             | N            | -             |
 
+## Docker
+#### Build and enter container command:
+```
+docker-compose build emulator
+```
+```
+docker-compose run emulator
+```
+It this moment, it should open the bash terminal inside the container.
+Every change on the code, will be directly avaliable inside the container.
+Meaning, it is possivel to execute the scripts that are modified, not needing to rebuild the docker image
+
+
+#### To execute code after enter container:
+Example:
+```
+root@1c1d29670293:/app# ls
+```
+
+#### To destroy image
+```
+docker-compose stop emulator
+```
+
 ## Json to debug processor:
 **NOTE: this project was build in ubuntu enviroment!**
 Create a file task.json on .vscode folder

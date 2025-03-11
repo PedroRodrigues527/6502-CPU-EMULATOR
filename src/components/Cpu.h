@@ -27,6 +27,7 @@ struct CPU
 
     void incrementProgramCounter();
     void reset(Memory &memory);
+    s32  getClockcycles(Byte instruction);
     Byte fetchByte(s32 &ClockCycles, Memory &memory);
     Word fetchWord(s32 &ClockCycles, Memory &memory);
     Byte readByte(s32 &ClockCycles, Memory &memory, Byte address);
@@ -39,7 +40,7 @@ struct CPU
     void setRY(Byte value);
     void decrementClockCycles(s32 &ClockCycles);
     void LOAD_flag_processing(Byte value);
-    void exec(s32 ClockCycles, Memory &memory);
+    void exec(Memory &memory);
     void setProgramCounter(Word value);
     void setStackPointer(Word value);
     void setProcessorFlags(int flag, bool value);
