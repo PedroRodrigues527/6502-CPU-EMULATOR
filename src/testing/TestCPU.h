@@ -35,4 +35,6 @@ bool STA_ZERO_PAGE_ABSOLUTE_Y_test(Memory &memory, CPU &cpu);
 bool STX_ZERO_PAGE_test(Memory &memory, CPU &cpu);
 bool STY_ZERO_PAGE_test(Memory &memory, CPU &cpu);
 
+bool assembler_test(Memory &memory, CPU &cpu);
+
 #endif

@@ -20,7 +20,11 @@ int main(int argc, char *argv[])
     CPU cpu;
     cpu.reset(memory);
 
-    Assembler::newCompileAssemblyProgram(cpu, memory);
-    cpu.exec(memory);
+    if (argc >= 2 && std::string(argv[1]) == "--check_errors" && isCPUWithErrors(memory, cpu))
+    {
+        return EXIT_FAILURE;
+    }
+
+    compileAssemblyProgram(cpu, memory);
     return 0;
 };

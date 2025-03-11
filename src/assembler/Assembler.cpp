@@ -23,17 +23,18 @@ Byte getOpcode(std::string instruction, bool isAddress)
     return 0x00; // NOP or unknown instruction
 }
 
-void compileAssemblyProgram(CPU &cpu, Memory &memory, std::string line) // assuming nothing is allocated from $0200 to $ffff
+void compileAssemblyProgram(CPU &cpu, Memory &memory, std::string assembly_code_file) // assuming nothing is allocated from $0200 to $ffff
 {
     int allocating_position = 0x0200;
     int cycles = 0;
     Byte opcode;
 
     std::fstream assembly_file;
-    assembly_file.open("assembly_code.txt", std::ios::in);
+    assembly_file.open(assembly_code_file, std::ios::in);
 
     if (assembly_file.is_open())
     {
+        std::string line;
         while (getline(assembly_file, line))
         {
             std::string asm_instruction = line.substr(0, line.find(' '));
@@ -49,7 +50,6 @@ void compileAssemblyProgram(CPU &cpu, Memory &memory, std::string line) // assum
             memory[allocating_position] = std::stoi(value);
             allocating_position++;
 
-            cpu.exec(getCycles(asm_instruction, isAddress), memory);
             // TODO: verify when to increment the allocating_position eg, in JSR
         }
 

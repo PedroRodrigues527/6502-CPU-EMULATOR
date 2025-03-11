@@ -4,6 +4,7 @@
 #include "../opcodes/opcodes.h"
 #include "../cycles/cycles.h"
 #include "../data_types/data_types.h"
+#include "../assembler/Assembler.h"
 
 /**
  * Run's tests for every operation avaliable in this emulator. Verifies CPU operations
@@ -30,7 +31,8 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
         STA_ZERO_PAGE_ABSOLUTE_X_test(memory, cpu)  ||
         STA_ZERO_PAGE_ABSOLUTE_Y_test(memory, cpu)  ||
         STX_ZERO_PAGE_test(memory, cpu)             ||
-        STY_ZERO_PAGE_test(memory, cpu))
+        assembler_test(memory, cpu)                 ||
+        STY_ZERO_PAGE_test(memory, cpu))            
     {
         return 1;
     }
@@ -50,7 +52,7 @@ bool LDA_test(Memory &memory, CPU &cpu)
     memory[0x0200] = opcodes::LDA;
     memory[0x0201] = 0x42;
 
-    cpu.exec(cycles::LOAD_CYCLES, memory);
+    cpu.exec(memory);
 
     if (cpu.getAcc() != 0x42)
     {
@@ -78,7 +80,7 @@ bool LDA_ZERO_PAGE_test(Memory &memory, CPU &cpu)
     memory[0x0200] = opcodes::LDA_ZERO_PAGE;
     memory[0x0201] = 0xff;
 
-    cpu.exec(cycles::LOAD_ZERO_CYCLES, memory);
+    cpu.exec(memory);
 
     if (cpu.getAcc() != 0x42)
     {
@@ -108,7 +110,7 @@ bool LDA_ZERO_PAGE_X_test(Memory &memory, CPU &cpu)
 
     memory[0x31] = 0x22;
 
-    cpu.exec(cycles::LOAD_ZERO_X_CYCLES, memory);
+    cpu.exec(memory);
 
     if (cpu.getAcc() != 0x22)
     {
@@ -134,7 +136,7 @@ bool LDX_test(Memory &memory, CPU &cpu)
     memory[0x0200] = opcodes::LDX;
     memory[0x0201] = 0x42;
 
-    cpu.exec(cycles::LOAD_CYCLES, memory);
+    cpu.exec(memory);
 
     if (cpu.getRX() != 0x42)
     {
@@ -161,7 +163,7 @@ bool LDX_ZERO_PAGE_test(Memory &memory, CPU &cpu)
     memory[0x0201] = 0xff;
     memory[0xff] = 0x42;
 
-    cpu.exec(cycles::LOAD_ZERO_CYCLES, memory);
+    cpu.exec(memory);
 
     if (cpu.getRX() != 0x42)
     {
@@ -187,7 +189,7 @@ bool LDY_test(Memory &memory, CPU &cpu)
     memory[0x0200] = opcodes::LDY;
     memory[0x0201] = 0x42;
 
-    cpu.exec(cycles::LOAD_CYCLES, memory);
+    cpu.exec(memory);
 
     if (cpu.getRY() != 0x42)
     {
@@ -214,7 +216,7 @@ bool LDY_ZERO_PAGE_test(Memory &memory, CPU &cpu)
     memory[0x0201] = 0xff;
     memory[0xff] = 0x42;
 
-    cpu.exec(cycles::LOAD_ZERO_CYCLES, memory);
+    cpu.exec(memory);
 
     if (cpu.getRY() != 0x42)
     {
@@ -244,7 +246,7 @@ bool JSR_test(Memory &memory, CPU &cpu)
     memory[0x4241] = opcodes::LDA;
     memory[0x4242] = 0x30;
 
-    cpu.exec(cycles::JSR_CYCLES + cycles::LOAD_CYCLES, memory);
+    cpu.exec(memory);
 
     if (cpu.getAcc() != 0x30)
     {
@@ -269,7 +271,7 @@ bool STA_ZERO_PAGE_test(Memory &memory, CPU &cpu)
     memory[0x0200] = opcodes::STA_ZERO_PAGE;
     memory[0x0201] = 0xfb;
 
-    cpu.exec(cycles::STA_ZERO_PAGE, memory);
+    cpu.exec(memory);
 
     if (memory[0xfb] != cpu.getAcc())
     {
@@ -297,7 +299,7 @@ bool STA_ZERO_PAGE_X_test(Memory &memory, CPU &cpu)
 
     Word newAddr = cpu.getRX() + 0xfa;
 
-    cpu.exec(cycles::STA_ZERO_PAGE_X, memory);
+    cpu.exec(memory);
 
     if (memory[newAddr] != cpu.getAcc())
     {
@@ -327,7 +329,7 @@ bool STA_ZERO_PAGE_ABSOLUTE_test(Memory &memory, CPU &cpu)
     memory[0x0201] = 0xff;
     memory[0x0202] = 0xfA;
 
-    cpu.exec(cycles::STA_ZERO_PAGE_ABSOLUTE, memory);
+    cpu.exec(memory);
 
     if (memory[0xfaff] != cpu.getAcc())
     {
@@ -357,7 +359,7 @@ bool STA_ZERO_PAGE_ABSOLUTE_X_test(Memory &memory, CPU &cpu)
 
     Word newAddr = cpu.getRX() + 0xfaff;
 
-    cpu.exec(cycles::STA_ZERO_PAGE_ABSOLUTE_X, memory);
+    cpu.exec(memory);
 
     if (memory[newAddr] != cpu.getAcc())
     {
@@ -388,7 +390,7 @@ bool STA_ZERO_PAGE_ABSOLUTE_Y_test(Memory &memory, CPU &cpu)
 
     Word newAddr = cpu.getRY() + 0xfaff;
 
-    cpu.exec(cycles::STA_ZERO_PAGE_ABSOLUTE_Y, memory);
+    cpu.exec(memory);
 
     if (memory[newAddr] != cpu.getAcc())
     {
@@ -416,7 +418,7 @@ bool STX_ZERO_PAGE_test(Memory &memory, CPU &cpu)
     memory[0x0200] = opcodes::STX_ZERO_PAGE;
     memory[0x0201] = 0xfb;
 
-    cpu.exec(cycles::STX_ZERO_PAGE, memory);
+    cpu.exec(memory);
 
     if (memory[0xfb] != cpu.getRX())
     {
@@ -441,7 +443,7 @@ bool STY_ZERO_PAGE_test(Memory &memory, CPU &cpu)
     memory[0x0200] = opcodes::STY_ZERO_PAGE;
     memory[0x0201] = 0xfb;
 
-    cpu.exec(cycles::STY_ZERO_PAGE, memory);
+    cpu.exec(memory);
 
     if (memory[0xfb] != cpu.getRY())
     {
@@ -451,3 +453,26 @@ bool STY_ZERO_PAGE_test(Memory &memory, CPU &cpu)
     std::cout << GREEN << "SUCCESS" << RESET << std::endl;
     return 0;
 }
+
+/**
+ * Run's tests for the assembler
+ * @param Memory &memory
+ * @param CPU &cpu
+ * @returns bool true if CPU has problems
+ */
+bool assembler_test(Memory &memory, CPU &cpu)
+{
+    std::cout << "ASSEMBLER TEST ";
+    compileAssemblyProgram(cpu, memory, "assembly_code_unit_test.txt");
+
+    cpu.exec(memory);
+
+    if (cpu.getAcc() != 0x32 || cpu.getRX() != 0x0A)
+    {
+        std::cout << RED << "ERROR" << RESET << std::endl;
+        return 1;
+    }
+    std::cout << GREEN << "SUCCESS" << RESET << std::endl;
+    return 0;
+}
+
