@@ -22,8 +22,8 @@ The project is still in "primitive" phase.
 
 More information here: https://web.archive.org/web/20190130160859/http://obelisk.me.uk/6502/addressing.html#ABS
 
-#### Current way to load programs:
-
+#### Way to load programs:
+###### Using the function `loadTestProgram`
 Add to ` void loadTestProgram(Memory &memory)` function in `main.cpp`
 
 LDA, example:
@@ -42,6 +42,14 @@ memory[0xfffe] = 0x42;
 memory[0x4242] = opcodes::LDA;
 memory[0x4243] = 0x84;
 ```
+
+###### Using the assembler
+By writing simple assembly code, for example: 
+```assembly
+LDA #50
+LDX #10
+```
+The assembly code is written to ``assembly_code.txt``
 
 ## Online Documentation:
 
