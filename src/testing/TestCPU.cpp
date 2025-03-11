@@ -451,6 +451,7 @@ bool STY_ZERO_PAGE_test(Memory &memory, CPU &cpu)
         return 1;
     }
     std::cout << GREEN << "SUCCESS" << RESET << std::endl;
+    cpu.reset(memory);
     return 0;
 }
 
@@ -473,6 +474,7 @@ bool assembler_test(Memory &memory, CPU &cpu)
         return 1;
     }
     std::cout << GREEN << "SUCCESS" << RESET << std::endl;
+    cpu.reset(memory);
     return 0;
 }
 
