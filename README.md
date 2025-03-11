@@ -1,6 +1,6 @@
 # 6502 CPU EMULATION 
-
-<b> (THIS PROJECT IN DEVELOPMENT!) </b>
+> [!NOTE]  
+> This project is under development!
 
 Simple C++ emulation of MOS Technology 6502.\
 The 6502 is a 8 bit (little endian) CPU, with a capability of addressing maximum of 64KB of memory, using a 16bits address bus.\
