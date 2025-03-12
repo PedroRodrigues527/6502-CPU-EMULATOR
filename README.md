@@ -22,7 +22,7 @@ The project is still in "primitive" phase.
 
 More information here: https://web.archive.org/web/20190130160859/http://obelisk.me.uk/6502/addressing.html#ABS
 
-#### Way to load programs:
+#### Ways to load programs:
 ###### Using the function `loadTestProgram`
 Add to ` void loadTestProgram(Memory &memory)` function in `main.cpp`
 
