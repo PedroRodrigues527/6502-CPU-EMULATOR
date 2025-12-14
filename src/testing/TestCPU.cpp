@@ -12,7 +12,7 @@
  * @param CPU &cpu
  * @returns bool true if CPU has problems
  */
-bool isCPUWithErrors(Memory &memory, CPU &cpu)
+bool is_cpu_with_errors(Memory &memory, CPU &cpu)
 {
     std::cout << "TESTING CPU...\n";
 
@@ -31,9 +31,9 @@ bool isCPUWithErrors(Memory &memory, CPU &cpu)
         STA_ZERO_PAGE_ABSOLUTE_X_test(memory, cpu)  ||
         STA_ZERO_PAGE_ABSOLUTE_Y_test(memory, cpu)  ||
         STX_ZERO_PAGE_test(memory, cpu)             ||
-        assembler_test(memory, cpu)                 ||
-        STY_ZERO_PAGE_test(memory, cpu))            
-    {
+        STY_ZERO_PAGE_test(memory, cpu)             ||
+        assembler_test(memory, cpu)                 
+    ){
         return 1;
     }
     std::cout << "\nALL TESTS PASSED!" << std::endl;

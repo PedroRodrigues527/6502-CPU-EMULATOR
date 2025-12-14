@@ -12,7 +12,7 @@
 
 #include <iostream>
 
-bool isCPUWithErrors(Memory &memory, CPU &cpu);
+bool is_cpu_with_errors(Memory &memory, CPU &cpu);
 
 bool LDA_test(Memory &memory, CPU &cpu);
 bool LDA_ZERO_PAGE_test(Memory &memory, CPU &cpu);
