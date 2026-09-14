@@ -39,6 +39,7 @@ struct CPU
     void setRX(Byte value);
     void setRY(Byte value);
     void decrementClockCycles(s32 &ClockCycles);
+    Word getProgramCounter();
     void LOAD_flag_processing(Byte value);
     void exec(Memory &memory);
     void setProgramCounter(Word value);

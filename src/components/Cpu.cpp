@@ -76,6 +76,15 @@ void CPU::decrementClockCycles(s32 &ClockCycles)
  * Set the program counter
  * @param Word value
  */
+Word CPU::getProgramCounter()
+{
+    return ProgramCounter;
+}
+
+/**
+ * Set the program counter
+ * @param Word value
+ */
 void CPU::setProgramCounter(Word value)
 {
     ProgramCounter = value;
