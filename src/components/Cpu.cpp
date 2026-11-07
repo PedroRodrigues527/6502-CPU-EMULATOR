@@ -309,9 +309,9 @@ Byte CPU::getStatusByte()
     Byte status = 0x20;
     if (ProcessorStatus.test(CARRY_FLAG))             status |= 0x01;
     if (ProcessorStatus.test(ZERO_FLAG))              status |= 0x02;
-    if (ProcessorStatus.test(INTERRUPT_DISABLE_FLAG)) status |= 0x04;
-    if (ProcessorStatus.test(DECIMAL_FLAG))           status |= 0x08;
-    if (ProcessorStatus.test(BREAK_FLAG))             status |= 0x10;
+    if (ProcessorStatus.test(INTERRUPT_DISABLE)) status |= 0x04;
+    if (ProcessorStatus.test(DECIMAL_MODE_FLAG))           status |= 0x08;
+    if (ProcessorStatus.test(BREAK_COMMAND))             status |= 0x10;
     if (ProcessorStatus.test(OVERFLOW_FLAG))          status |= 0x40;
     if (ProcessorStatus.test(NEGATIVE_FLAG))          status |= 0x80;
     return status;
@@ -325,9 +325,9 @@ void CPU::setStatusByte(Byte status)
 {
     setProcessorFlags(CARRY_FLAG,             (status & 0x01) != 0);
     setProcessorFlags(ZERO_FLAG,              (status & 0x02) != 0);
-    setProcessorFlags(INTERRUPT_DISABLE_FLAG, (status & 0x04) != 0);
-    setProcessorFlags(DECIMAL_FLAG,           (status & 0x08) != 0);
-    setProcessorFlags(BREAK_FLAG,             (status & 0x10) != 0);
+    setProcessorFlags(INTERRUPT_DISABLE, (status & 0x04) != 0);
+    setProcessorFlags(DECIMAL_MODE_FLAG,           (status & 0x08) != 0);
+    setProcessorFlags(BREAK_COMMAND,             (status & 0x10) != 0);
     setProcessorFlags(OVERFLOW_FLAG,          (status & 0x40) != 0);
     setProcessorFlags(NEGATIVE_FLAG,          (status & 0x80) != 0);
 }
@@ -504,7 +504,7 @@ void CPU::addWithCarry(Byte value)
     const unsigned carry = getProcessorFlag(CARRY_FLAG) ? 1 : 0;
     const unsigned binary = a + value + carry;
 
-    if (!getProcessorFlag(DECIMAL_FLAG))
+    if (!getProcessorFlag(DECIMAL_MODE_FLAG))
     {
         setProcessorFlags(CARRY_FLAG, binary > 0xFF);
         setProcessorFlags(OVERFLOW_FLAG, (~(a ^ value) & (a ^ binary) & 0x80) != 0);
@@ -549,7 +549,7 @@ void CPU::subtractWithCarry(Byte value)
     setProcessorFlags(OVERFLOW_FLAG, ((a ^ value) & (a ^ binary) & 0x80) != 0);
     LOAD_flag_processing(static_cast<Byte>(binary & 0xFF));
 
-    if (!getProcessorFlag(DECIMAL_FLAG))
+    if (!getProcessorFlag(DECIMAL_MODE_FLAG))
     {
         setAcc(static_cast<Byte>(binary & 0xFF));
         return;
@@ -1042,10 +1042,10 @@ s32 CPU::exec(Memory &memory)
             // ------------------------------------------- Status changes
             case Mnemonic::CLC: decrementClockCycles(ClockCycles); setProcessorFlags(CARRY_FLAG, false); break;
             case Mnemonic::SEC: decrementClockCycles(ClockCycles); setProcessorFlags(CARRY_FLAG, true); break;
-            case Mnemonic::CLD: decrementClockCycles(ClockCycles); setProcessorFlags(DECIMAL_FLAG, false); break;
-            case Mnemonic::SED: decrementClockCycles(ClockCycles); setProcessorFlags(DECIMAL_FLAG, true); break;
-            case Mnemonic::CLI: decrementClockCycles(ClockCycles); setProcessorFlags(INTERRUPT_DISABLE_FLAG, false); break;
-            case Mnemonic::SEI: decrementClockCycles(ClockCycles); setProcessorFlags(INTERRUPT_DISABLE_FLAG, true); break;
+            case Mnemonic::CLD: decrementClockCycles(ClockCycles); setProcessorFlags(DECIMAL_MODE_FLAG, false); break;
+            case Mnemonic::SED: decrementClockCycles(ClockCycles); setProcessorFlags(DECIMAL_MODE_FLAG, true); break;
+            case Mnemonic::CLI: decrementClockCycles(ClockCycles); setProcessorFlags(INTERRUPT_DISABLE, false); break;
+            case Mnemonic::SEI: decrementClockCycles(ClockCycles); setProcessorFlags(INTERRUPT_DISABLE, true); break;
             case Mnemonic::CLV: decrementClockCycles(ClockCycles); setProcessorFlags(OVERFLOW_FLAG, false); break;
 
             // ----------------------------------------------------- System
@@ -1057,8 +1057,8 @@ s32 CPU::exec(Memory &memory)
                 fetchByte(ClockCycles, memory); // BRK is followed by a padding byte that is skipped
                 pushWord(ClockCycles, memory, ProgramCounter);
                 pushByte(ClockCycles, memory, static_cast<Byte>(getStatusByte() | 0x10));
-                setProcessorFlags(INTERRUPT_DISABLE_FLAG, true);
-                setProcessorFlags(BREAK_FLAG, true);
+                setProcessorFlags(INTERRUPT_DISABLE, true);
+                setProcessorFlags(BREAK_COMMAND, true);
                 Word low = readByte(ClockCycles, memory, 0xFFFE);
                 Word high = readByte(ClockCycles, memory, 0xFFFF);
                 setProgramCounter(static_cast<Word>(low | (high << 8)));

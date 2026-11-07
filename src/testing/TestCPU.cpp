@@ -802,10 +802,10 @@ namespace
 
         cpu.reset(memory);
         cycles = run(memory, cpu, {opcodes::SED});
-        check.that(cpu.getProcessorFlag(DECIMAL_FLAG) && cycles == 2, "SED: should set the decimal flag in 2 clock cycles");
+        check.that(cpu.getProcessorFlag(DECIMAL_MODE_FLAG) && cycles == 2, "SED: should set the decimal flag in 2 clock cycles");
         cpu.reset(memory);
         cycles = run(memory, cpu, {opcodes::SED, opcodes::CLD});
-        check.that(!cpu.getProcessorFlag(DECIMAL_FLAG) && cycles == 4, "CLD: should clear the decimal flag in 2 clock cycles");
+        check.that(!cpu.getProcessorFlag(DECIMAL_MODE_FLAG) && cycles == 4, "CLD: should clear the decimal flag in 2 clock cycles");
 
         // BRK sets the interrupt flag itself, so look at the status BRK pushed on the stack
         // (0x01FF and 0x01FE hold the return address)
@@ -961,7 +961,7 @@ namespace
 
         check.that(cpu.getAcc() == 0x66, "RTI: should return to 0x3000");
         check.that(cycles == 6 + 2, "RTI: should take 6 clock cycles");
-        check.that(cpu.getProcessorFlag(CARRY_FLAG) && cpu.getProcessorFlag(DECIMAL_FLAG), "RTI: should restore the flags from the stack");
+        check.that(cpu.getProcessorFlag(CARRY_FLAG) && cpu.getProcessorFlag(DECIMAL_MODE_FLAG), "RTI: should restore the flags from the stack");
         check.that(cpu.getStackPointer() == 0x01FC, "RTI: the stack pointer should be back at the top (BRK pushed 3 bytes)");
         return finish(check, memory, cpu);
     }
@@ -981,7 +981,7 @@ namespace
         check.that(cpu.getProgramCounter() == 0x4000, "BRK: should load the program counter from $FFFE/F");
         check.that(memory[0x01FF] == 0x02 && memory[0x01FE] == 0x03, "BRK: should push the address of BRK + 2 (high byte first)");
         check.that(memory[0x01FD] == 0x31, "BRK: should push the status with the break flag set (0x31 = C + B + bit 5)");
-        check.that(cpu.getProcessorFlag(INTERRUPT_DISABLE_FLAG) && cpu.getProcessorFlag(BREAK_FLAG), "BRK: should set the interrupt disable and break flags");
+        check.that(cpu.getProcessorFlag(INTERRUPT_DISABLE) && cpu.getProcessorFlag(BREAK_COMMAND), "BRK: should set the interrupt disable and break flags");
         check.that(cpu.getStackPointer() == 0x01FC, "BRK: should have pushed 3 bytes");
         return finish(check, memory, cpu);
     }
