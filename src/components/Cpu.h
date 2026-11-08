@@ -15,6 +15,8 @@
 
 struct CPU
 {
+    bool inDebug = false;
+
     Word ProgramCounter;
     Word StackPointer; // supports a 256 byte stack located between $0100 and $01FF
 
@@ -25,6 +27,7 @@ struct CPU
     // flags
     std::bitset<7> ProcessorStatus;
 
+    void setDebugMode();
     void incrementProgramCounter();
     void reset(Memory &memory);
     s32  getClockcycles(Byte instruction);
@@ -46,6 +49,7 @@ struct CPU
     void LOAD_flag_processing(Byte value);
     // void exec(Memory &memory);
     s32 exec(Memory &memory);
+    s32 execDebug(Memory &memory);
     void setProgramCounter(Word value);
     void setStackPointer(Word value);
     void setProcessorFlags(int flag, bool value);

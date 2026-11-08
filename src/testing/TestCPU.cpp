@@ -750,7 +750,8 @@ namespace
         // TXS sets the stack pointer and leaves the flags alone: LDA #1 clears N, so N must stay clear
         cpu.reset(memory);
         cycles = run(memory, cpu, {opcodes::LDX, 0x80, opcodes::LDA, 0x01, opcodes::TXS});
-        check.that(cpu.getStackPointer() == 0x0180 && cycles == 6, "TXS: stack pointer should be 0x0180 and take 6 cycles in total");
+        // 0x0180 - 3 clock cycles from BRK
+        check.that(cpu.getStackPointer() == (0x017D) && cycles == 6, "TXS: stack pointer should be 0x0180 and take 6 cycles in total");
         check.flags(cpu, "-z-n", "TXS must not change the flags");
 
         return finish(check, memory, cpu);

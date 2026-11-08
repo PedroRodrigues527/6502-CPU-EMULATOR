@@ -281,7 +281,9 @@ Word CPU::getStackPointer()
  */
 void CPU::setStackPointer(Word value)
 {
+    printf("CPU :: setStackPointer\nSP before: %d\n", getStackPointer());
     StackPointer = value;
+    printf("CPU :: SP after: %d\n", getStackPointer());
 }
 
 void CPU::setProcessorFlags(int flag, bool value = 1)
@@ -338,6 +340,7 @@ void CPU::setStatusByte(Byte status)
  */
 void CPU::reset(Memory &memory)
 {
+    printf("CPU :: CPU RESET\n");
     setProgramCounter(0x0200); // [0x0200, 0xffff]
     setStackPointer(0x01FF);   // [0x0100, 0x01ff] - the stack grows downwards
     setAcc(0);
@@ -346,6 +349,10 @@ void CPU::reset(Memory &memory)
     ProcessorStatus.reset();
 
     memory.init();
+}
+
+void CPU::setDebugMode() {
+    inDebug = true;
 }
 
 /**
@@ -429,7 +436,7 @@ void CPU::writeByte(s32 &ClockCycles, Memory &memory, Word address, Byte value)
 void CPU::pushByte(s32 &ClockCycles, Memory &memory, Byte value)
 {
     writeByte(ClockCycles, memory, StackPointer, value);
-    StackPointer = static_cast<Word>(0x0100 | ((StackPointer - 1) & 0xFF));
+    setStackPointer(static_cast<Word>(0x0100 | ((StackPointer - 1) & 0xFF)));
 }
 
 /**
@@ -440,7 +447,7 @@ void CPU::pushByte(s32 &ClockCycles, Memory &memory, Byte value)
  */
 Byte CPU::pullByte(s32 &ClockCycles, Memory &memory)
 {
-    StackPointer = static_cast<Word>(0x0100 | ((StackPointer + 1) & 0xFF));
+    setStackPointer(static_cast<Word>(0x0100 | ((StackPointer + 1) & 0xFF)));
     return readByte(ClockCycles, memory, StackPointer);
 }
 
@@ -672,6 +679,11 @@ void CPU::branch(bool condition, s32 &ClockCycles, Memory &memory)
     }
 }
 
+s32 CPU::execDebug(Memory &memory) {
+    setDebugMode();
+    return CPU::exec(memory);
+}
+
 /**
  * Brain of the execution of the CPU instructions. Runs the program starting at the
  * program counter until a BRK instruction has been executed (or an unknown opcode is found).
@@ -888,7 +900,12 @@ s32 CPU::exec(Memory &memory)
                 break;
             case Mnemonic::TXS: // does not touch the flags
                 decrementClockCycles(ClockCycles);
+
+                printf("CPU :: TXS BEFORE: SP: %d\n", getStackPointer());
                 setStackPointer(static_cast<Word>(0x0100 | getRX()));
+                printf("CPU :: TXS AFTER: SP: %d\n", getStackPointer());
+
+
                 break;
 
             // ----------------------------------------------------- Stack
