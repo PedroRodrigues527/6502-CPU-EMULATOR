@@ -829,7 +829,6 @@ s32 CPU::exec(Memory &memory)
 
         switch (instruction.mnemonic)
         {
-            // ------------------------------------------------------ Loads
             case Mnemonic::LDA:
             {
                 Byte value = readOperand(instruction.mode);
@@ -852,7 +851,6 @@ s32 CPU::exec(Memory &memory)
                 break;
             }
 
-            // ----------------------------------------------------- Stores
             case Mnemonic::STA:
             {
                 Word address = effectiveAddress(instruction.mode, true);
@@ -872,7 +870,6 @@ s32 CPU::exec(Memory &memory)
                 break;
             }
 
-            // ------------------------------------------ Register transfers
             case Mnemonic::TAX:
                 decrementClockCycles(ClockCycles);
                 setRX(getAcc());
@@ -908,7 +905,6 @@ s32 CPU::exec(Memory &memory)
 
                 break;
 
-            // ----------------------------------------------------- Stack
             case Mnemonic::PHA:
                 decrementClockCycles(ClockCycles);
                 pushByte(ClockCycles, memory, getAcc());
@@ -931,7 +927,6 @@ s32 CPU::exec(Memory &memory)
                 setStatusByte(pullByte(ClockCycles, memory));
                 break;
 
-            // --------------------------------------------------- Logical
             case Mnemonic::AND:
             {
                 Byte value = readOperand(instruction.mode);
@@ -957,7 +952,6 @@ s32 CPU::exec(Memory &memory)
                 bitTest(readOperand(instruction.mode));
                 break;
 
-            // ------------------------------------------------ Arithmetic
             case Mnemonic::ADC:
                 addWithCarry(readOperand(instruction.mode));
                 break;
@@ -974,7 +968,6 @@ s32 CPU::exec(Memory &memory)
                 compare(getRY(), readOperand(instruction.mode));
                 break;
 
-            // ------------------------------- Increments, decrements, shifts
             case Mnemonic::INC:
             case Mnemonic::DEC:
             case Mnemonic::ASL:
@@ -1004,7 +997,6 @@ s32 CPU::exec(Memory &memory)
                 LOAD_flag_processing(getRY());
                 break;
 
-            // ------------------------------------------------------ Jumps
             case Mnemonic::JMP:
             {
                 if (instruction.mode == AddressingMode::ABSOLUTE)
@@ -1046,7 +1038,6 @@ s32 CPU::exec(Memory &memory)
                 break;
             }
 
-            // --------------------------------------------------- Branches
             case Mnemonic::BCC: branch(!getProcessorFlag(CARRY_FLAG),    ClockCycles, memory); break;
             case Mnemonic::BCS: branch(getProcessorFlag(CARRY_FLAG),     ClockCycles, memory); break;
             case Mnemonic::BEQ: branch(getProcessorFlag(ZERO_FLAG),      ClockCycles, memory); break;
@@ -1056,7 +1047,6 @@ s32 CPU::exec(Memory &memory)
             case Mnemonic::BVS: branch(getProcessorFlag(OVERFLOW_FLAG),  ClockCycles, memory); break;
             case Mnemonic::BVC: branch(!getProcessorFlag(OVERFLOW_FLAG), ClockCycles, memory); break;
 
-            // ------------------------------------------- Status changes
             case Mnemonic::CLC: decrementClockCycles(ClockCycles); setProcessorFlags(CARRY_FLAG, false); break;
             case Mnemonic::SEC: decrementClockCycles(ClockCycles); setProcessorFlags(CARRY_FLAG, true); break;
             case Mnemonic::CLD: decrementClockCycles(ClockCycles); setProcessorFlags(DECIMAL_MODE_FLAG, false); break;
@@ -1065,7 +1055,6 @@ s32 CPU::exec(Memory &memory)
             case Mnemonic::SEI: decrementClockCycles(ClockCycles); setProcessorFlags(INTERRUPT_DISABLE, true); break;
             case Mnemonic::CLV: decrementClockCycles(ClockCycles); setProcessorFlags(OVERFLOW_FLAG, false); break;
 
-            // ----------------------------------------------------- System
             case Mnemonic::NOP:
                 decrementClockCycles(ClockCycles);
                 break;
