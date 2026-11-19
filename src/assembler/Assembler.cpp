@@ -7,7 +7,6 @@
 #include <algorithm>
 
 #include "../opcodes/opcodes.h"
-#include "../cycles/cycles.h"
 #include "../data_types/data_types.h"
 
 
